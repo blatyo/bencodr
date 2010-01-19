@@ -4,7 +4,20 @@ module BEncode
   module String
     module String
       module ClassMethods
+        def parse!(string)
+          match = string.match(/^([1-9]\d*|0):/)
+          raise BEncode::BEncodeError, "Invalid bencoded string #{string}: invalid length." unless match
+          length = match[1].to_i
+          match = string.match(/^\d+:(.{#{length}})/)
+          raise BEncode::BEncodeError, "Invalid bencoded string #{string}: encoded length #{length} too large." unless match
+          match[1]
+        end
 
+        def parse(string)
+          parse!(string)
+        rescue
+          nil
+        end
       end
 
       module InstanceMethods
@@ -21,9 +34,9 @@ module BEncode
       ::String.class_eval {include InstanceMethods}
     end
 
-    module Symbol
+    module Generic
       module InstanceMethods
-        # Encodes a symbol into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
+        # Encodes object into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
         # the string.
         #
         # :symbol.bencode #=> "6:symbol"
@@ -31,23 +44,13 @@ module BEncode
           to_s.bencode
         end
       end
-
-      ::Symbol.class_eval {include InstanceMethods}
     end
 
-    module URIGeneric
-      module InstanceMethods
-        # Encodes a uri into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
-        # the string.
-        #
-        # uri = URI.parse("http://github.com/blatyo/bencode")
-        # uri.bencode #=> "32:http://github.com/blatyo/bencode"
-        def bencode
-          to_s.bencode
-        end
-      end
-
-      ::URI::Generic.class_eval {include InstanceMethods}
+    def self.register(type)
+      type.class_eval {include Generic::InstanceMethods}
     end
+
+    register Symbol
+    register URI::Generic
   end
 end
