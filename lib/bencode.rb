@@ -5,3 +5,4 @@ module BEncode
 end
 
 require "#{path}/string"
+require "#{path}/integer"

@@ -2,6 +2,37 @@ require 'uri'
 
 module BEncode
   module String
+    module Generic
+      module InstanceMethods
+        # Encodes object into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
+        # the string.
+        #
+        # :symbol.bencode #=> "6:symbol"
+        def bencode
+          (respond_to?(:to_s) ? to_s : to_str).bencode
+        end
+      end
+    end
+
+    # Registers a class as an object that can be converted into a bencoded string. Class must have instance method to_s
+    # or to_str.
+    #
+    # class MyClass
+    #   def to_s
+    #     "string"
+    #   end
+    # end
+    #
+    # BEncode::String.register MyClass
+    # my_class = MyClass.new
+    # my_class.bencode  #=> "6:string"
+    def self.register(type)
+      type.class_eval {include Generic::InstanceMethods}
+    end
+
+    register Symbol
+    register URI::Generic
+
     module String
       module ClassMethods
         def parse!(string)
@@ -33,24 +64,5 @@ module BEncode
       ::String.extend ClassMethods
       ::String.class_eval {include InstanceMethods}
     end
-
-    module Generic
-      module InstanceMethods
-        # Encodes object into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
-        # the string.
-        #
-        # :symbol.bencode #=> "6:symbol"
-        def bencode
-          to_s.bencode
-        end
-      end
-    end
-
-    def self.register(type)
-      type.class_eval {include Generic::InstanceMethods}
-    end
-
-    register Symbol
-    register URI::Generic
   end
 end
