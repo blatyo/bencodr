@@ -1,6 +1,6 @@
-= bencode
+= BEncode
 
-Description goes here.
+This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
 
 == Note on Patches/Pull Requests
  
