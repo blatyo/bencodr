@@ -6,3 +6,4 @@ end
 
 require "#{path}/string"
 require "#{path}/integer"
+require "#{path}/list" 
