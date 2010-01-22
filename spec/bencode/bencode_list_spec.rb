@@ -3,8 +3,11 @@ require "spec_helper"
 
 describe Array do
   describe "#bencode" do
-    it "should encode to bencoding" do
+    it "should encode an empty array" do
       [].bencode.should == "le"
+    end
+
+    it "should encode an array filled with bencodable objects" do
       [:e, "a", 1, Time.at(11)].bencode.should == "l1:e1:ai1ei11ee"
     end
   end
