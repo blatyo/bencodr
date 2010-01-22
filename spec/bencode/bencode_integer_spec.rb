@@ -1,5 +1,5 @@
 require "spec"
-require 'spec_helper'
+require "spec_helper"
 
 describe Integer do
   describe "#bencode" do
