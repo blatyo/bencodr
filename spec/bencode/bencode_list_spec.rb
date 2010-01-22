@@ -1,10 +1,12 @@
 require "spec"
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe "Array" do
-
-  it "should encode to bencoding" do
-    [].bencode.should == "le"
-    [:e, "a", 1, Time.at(11)].bencode.should == "l1:e1:ai1ei11ee"
+describe Array do
+  describe "#bencode" do
+    it "should encode to bencoding" do
+      [].bencode.should == "le"
+      [:e, "a", 1, Time.at(11)].bencode.should == "l1:e1:ai1ei11ee"
+    end
   end
 end
 

@@ -1,41 +1,48 @@
 require "spec"
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe "String" do
-  it "should encode to bencoding" do
-    "string".bencode.should == "6:string"
-  end
-
-  it "should parse a bencoded string" do
-    String.parse!("6:string").should == "string"
-    String.parse("6:string").should == "string"
-  end
-
-  it "should raise error when valid length is not found while parsing!" do
-    lambda { String.parse! "06:string" }.should raise_error(BEncode::BEncodeError)
-    lambda { String.parse! "-6:string" }.should raise_error(BEncode::BEncodeError)
-  end
-
-  it "should raise error when encoded length is too long while parsing!" do
-    lambda { String.parse! "7:string" }.should raise_error(BEncode::BEncodeError) 
-  end
-
-  it "should not raise an exception while parsing" do
-    lambda { String.parse "06:string" }.should_not raise_error(BEncode::BEncodeError)
-    lambda { String.parse "-6:string" }.should_not raise_error(BEncode::BEncodeError)
-    lambda { String.parse "7:string" }.should_not raise_error(BEncode::BEncodeError) 
+describe String do
+  describe "#bencode" do
+    it "should encode to bencoding" do
+      "string".bencode.should == "6:string"
+    end
   end
 end
 
-describe "Symbol" do
-  it "should encode to bencoding" do
-    :symbol.bencode.should == "6:symbol"
+describe Symbol do
+  describe "#bencode" do
+    it "should encode to bencoding" do
+      :symbol.bencode.should == "6:symbol"
+    end
   end
 end
 
-describe "URI" do
+describe URI::Generic do
+  describe "#bencode" do
+    it "should encode to bencoding" do
+      uri = URI.parse("http://github.com/blatyo/bencode")
+      uri.bencode.should == "32:http://github.com/blatyo/bencode"
+    end
+  end
+end
+
+describe "Generic object" do
+  before :all do
+    klass = Class.new do
+      def to_s
+        "string"
+      end
+    end
+    BEncode::String.register klass
+    @instance = klass.new
+  end
+
+
+  it "should be able to register as a bencodable string" do
+    @instance.respond_to?(:bencode).should == true
+  end
+
   it "should encode to bencoding" do
-    uri = URI.parse("http://github.com/blatyo/bencode")
-    uri.bencode.should == "32:http://github.com/blatyo/bencode"
+    @instance.bencode.should == "6:string"
   end
 end

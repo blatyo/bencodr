@@ -27,30 +27,13 @@ module BEncode
     # my_class = MyClass.new
     # my_class.bencode  #=> "6:string"
     def self.register(type)
-      type.class_eval {include Generic::InstanceMethods}
+      type.send :include, Generic::InstanceMethods
     end
 
     register Symbol
     register URI::Generic
 
     module String
-      module ClassMethods
-        def parse!(string)
-          match = string.match(/^([1-9]\d*|0):/)
-          raise BEncode::BEncodeError, "Invalid bencoded string #{string}: invalid length." unless match
-          length = match[1].to_i
-          match = string.match(/^\d+:(.{#{length}})/)
-          raise BEncode::BEncodeError, "Invalid bencoded string #{string}: encoded length #{length} too large." unless match
-          match[1]
-        end
-
-        def parse(string)
-          parse!(string)
-        rescue
-          nil
-        end
-      end
-
       module InstanceMethods
         # Encodes a string into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
         # the string.
@@ -61,8 +44,7 @@ module BEncode
         end
       end
 
-      ::String.extend ClassMethods
-      ::String.class_eval {include InstanceMethods}
+      ::String.send :include, InstanceMethods
     end
   end
 end

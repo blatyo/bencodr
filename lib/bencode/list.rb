@@ -7,7 +7,7 @@ module BEncode
         #
         # [].bencode #=> "le"
         def bencode
-          (respond_to?(:to_a) ? to_a : to_ary).bencode
+          (respond_to?(:to_ary) ? to_ary : to_a).bencode
         end
       end
     end
@@ -25,7 +25,7 @@ module BEncode
     # my_class = MyClass.new
     # my_class.bencode  #=> "li1e3:cate"
     def self.register(type)
-      type.class_eval {include Generic::InstanceMethods}
+      type.send :include, Generic::InstanceMethods
     end
 
     module Array
@@ -41,7 +41,7 @@ module BEncode
         end
       end
 
-      ::Array.class_eval {include InstanceMethods}
+      ::Array.send :include, InstanceMethods
     end
   end
 end

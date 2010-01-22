@@ -25,27 +25,13 @@ module BEncode
     # my_class = MyClass.new
     # my_class.bencode  #=> "i1e"
     def self.register(type)
-      type.class_eval {include Generic::InstanceMethods}
+      type.send :include, Generic::InstanceMethods
     end
 
     register Numeric
     register Time
 
     module Integer
-      module ClassMethods
-        def parse!(string)
-          match = string.match(/^i(-?[1-9]\d*|0)e/)
-          raise BEncode::BEncodeError, "Invalid bencoded integer." unless match
-          match[1].to_i
-        end
-
-        def parse(string)
-          parse!(string)
-        rescue
-          nil
-        end
-      end
-
       module InstanceMethods
         # Encodes an integer into a bencoded integer. Bencoded integers are represented by an 'i' followed by the number
         # in base 10 followed by an 'e'.
@@ -57,8 +43,7 @@ module BEncode
         end
       end
 
-      ::Integer.extend ClassMethods
-      ::Integer.class_eval {include InstanceMethods}
+      ::Integer.send :include, InstanceMethods
     end
   end
 end
