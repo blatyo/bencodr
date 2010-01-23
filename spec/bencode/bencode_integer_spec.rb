@@ -49,22 +49,22 @@ describe Time do
   end
 end
 
-describe "Generic object that can convert to integer" do
-  before :all do
-    klass = Class.new do
-      def to_i
-        1
+describe BEncode::Integer do
+  describe "#register" do
+    context "once an object has been registered as a BEncode integer" do
+      before :all do
+        BEncode::Integer.register NilClass
+      end
+
+      context "an instance of that object" do
+        it "should respond to bencode" do
+          nil.should respond_to :bencode
+        end
+
+        it "should encode to a bencoded integer" do
+          nil.bencode.should == "i0e"
+        end
       end
     end
-    BEncode::Integer.register klass
-    @instance = klass.new
-  end
-
-  it "should be able to register as a bencodable integer" do
-    @instance.respond_to?(:bencode).should == true
-  end
-
-  it "should encode to bencoding" do
-    @instance.bencode.should == "i1e"
   end
 end

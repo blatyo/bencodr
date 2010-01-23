@@ -13,16 +13,22 @@ describe Array do
   end
 end
 
-describe "Generic object that can convert to array" do
-  before :all do
-    BEncode::List.register Range
-  end
+describe BEncode::List do
+  describe "#register" do
+    context "once an object has been registered as a BEncode list" do
+      before :all do
+        BEncode::List.register Range
+      end
 
-  it "should be able to register as a bencodable list" do
-    (1..2).respond_to?(:bencode).should == true
-  end
+      context "an instance of that object" do
+        it "should respond to bencode" do
+          (1..2).should respond_to :bencode
+        end
 
-  it "should encode to bencoding" do
-    (1..2).bencode.should == "li1ei2ee"
+        it "should encode to a bencoded list" do
+          (1..2).bencode.should == "li1ei2ee"
+        end
+      end
+    end
   end
 end

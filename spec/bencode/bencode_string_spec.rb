@@ -46,23 +46,22 @@ describe URI::Generic do
   end
 end
 
-describe "Generic object" do
-  before :all do
-    klass = Class.new do
-      def to_s
-        "string"
+describe BEncode::String do
+  describe "#register" do
+    context "once an object has been registered as a BEncode string" do
+      before :all do
+        BEncode::String.register Range
+      end
+
+      context "an instance of that object" do
+        it "should respond to bencode" do
+          (1..2).should respond_to :bencode
+        end
+
+        it "should encode to a bencoded string" do
+          (1..2).bencode.should == "4:1..2"
+        end
       end
     end
-    BEncode::String.register klass
-    @instance = klass.new
-  end
-
-
-  it "should be able to register as a bencodable string" do
-    @instance.respond_to?(:bencode).should == true
-  end
-
-  it "should encode to bencoding" do
-    @instance.bencode.should == "6:string"
   end
 end
