@@ -6,6 +6,10 @@ describe String do
     it "should encode a string" do
       "string".bencode.should == "6:string"
     end
+
+    it "should encode a zero length string" do
+      "".bencode.should == "0:"
+    end
   end
 end
 
