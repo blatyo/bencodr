@@ -5,6 +5,13 @@ require 'strscan'
 module BEncode
   module Parser
     class << self
+      # This method parases a bencoded object.
+      #
+      #   scanner = StringScanner.new("6:string")
+      #   BEncode::Parser.parse_object(scanner) #=> "string"
+      #
+      # @param [StringScanner] scanner the scanner of a bencoded object
+      # @return [String, Integer, Hash, Array, nil] an object if type is recognized or nil
       def parse_object(scanner)
         case scanner.peek(1)[0]
           when ?0..?9
@@ -20,12 +27,26 @@ module BEncode
         end
       end
 
+      # This method parases a bencoded string.
+      #
+      #   scanner = StringScanner.new("6:string")
+      #   BEncode::Parser.parse_string(scanner) #=> "string"
+      #
+      # @param [StringScanner] scanner the scanner of a bencoded string
+      # @return [String] the parsed string
       def parse_string(scanner)
         length = scanner.scan(/[1-9][0-9]*|0/)    or raise BEncodeError, "Invalid string: length invalid. #{scanner.pos}"
         scanner.scan(/:/)                         or raise BEncodeError, "Invalid string: missing colon(:). #{scanner.pos}"
         scanner.scan(/.{#{length.to_i}}/)         or raise BEncodeError, "Invalid string: length too long(#{length}) #{scanner.pos}."
       end
 
+      # This method parases a bencoded integer.
+      #
+      #   scanner = StringScanner.new("i1e")
+      #   BEncode::Parser.parse_integer(scanner) #=> 1
+      #
+      # @param [StringScanner] scanner the scanner of a bencoded integer
+      # @return [Integer] the parsed integer
       def parse_integer(scanner)
         scanner.scan(/i/)                         or raise BEncodeError, "Invalid integer: missing opening i. #{scanner.pos}"
         integer = scanner.scan(/-?[1-9][0-9]*|0/) or raise BEncodeError, "Invalid integer: valid integer not found. #{scanner.pos}"
@@ -33,6 +54,13 @@ module BEncode
         integer.to_i
       end
 
+      # This method parases a bencoded list.
+      #
+      #   scanner = StringScanner.new("le")
+      #   BEncode::Parser.parse_list(scanner) #=> []
+      #
+      # @param [StringScanner] scanner the scanner of a bencoded list
+      # @return [Array] the parsed array
       def parse_list(scanner)
         list = []
 
@@ -47,6 +75,13 @@ module BEncode
         list
       end
 
+      # This method parases a bencoded dictionary.
+      #
+      #   scanner = StringScanner.new("de")
+      #   BEncode::Parser.parse_dictionary(scanner) #=> {}
+      #
+      # @param [StringScanner] scanner the scanner of a bencoded dictionary
+      # @return [Hash] the parsed hash
       def parse_dictionary(scanner)
         dictionary = {}
 
@@ -61,7 +96,8 @@ module BEncode
         dictionary
       end
 
-      def parse_key_value(scanner)
+
+      def parse_key_value(scanner) # :nodoc:
         key = parse_object(scanner)
         return key unless key
         raise BEncodeError, "Invalid dictionary: key is not a string. #{scanner.pos}" unless key.is_a?(::String)

@@ -9,6 +9,8 @@ module BEncode
         # strings, not alphanumerics).
         #
         #   {:cow => "moo", :seven => 7}.bencode #=> "d3:cow3:moo5:seveni7ee"
+        #
+        # @return [String] the bencoded dictionary
         def bencode
           (respond_to?(:to_h) ? to_h : to_hash).bencode
         end
@@ -28,7 +30,7 @@ module BEncode
     #   my_class = MyClass.new
     #   my_class.bencode  #=> "d1:a1:a1:bi1ee"
     #
-    # @param [#to_h, #to_hash] type to register
+    # @param [Class#to_h, Class#to_hash] type the class to add the bencode instance method to
     def self.register(type)
       type.send :include, Generic::InstanceMethods
     end
@@ -40,6 +42,8 @@ module BEncode
         # strings, not alphanumerics).
         #
         #   {:cow => "moo", :seven => 7}.bencode #=> "d3:cow3:moo5:seveni7ee"
+        #
+        # @return [String] the bencoded dictionary 
         def bencode
           keys.sort{|a, b| a.to_s <=> b.to_s}.collect do |key|
             key.to_s.bencode + self[key].bencode

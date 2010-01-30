@@ -7,7 +7,9 @@ module BEncode
         # Encodes object into a bencoded integer. BEncoded strings are length-prefixed base ten followed by a colon and
         # the string. Object must implement to_i or to_int.
         #
-        # :symbol.bencode #=> "6:symbol"
+        #   1.bencode #=> "i1e"
+        #
+        # @return [String] the bencoded integer
         def bencode
           (respond_to?(:to_i) ? to_i : to_int).bencode
         end
@@ -17,15 +19,17 @@ module BEncode
     # Registers a class as an object that can be converted into a bencoded integer. Class must have instance method to_i
     # or to_int.
     #
-    # class MyClass
-    #   def to_i
-    #     1
+    #   class MyClass
+    #     def to_i
+    #       1
+    #     end
     #   end
-    # end
     #
-    # BEncode::Integer.register MyClass
-    # my_class = MyClass.new
-    # my_class.bencode  #=> "i1e"
+    #   BEncode::Integer.register MyClass
+    #   my_class = MyClass.new
+    #   my_class.bencode  #=> "i1e"
+    #
+    # @param [Class#to_i, Class#to_int] type the class to add the bencode instance method to
     def self.register(type)
       type.send :include, Generic::InstanceMethods
     end
@@ -38,8 +42,10 @@ module BEncode
         # Encodes an integer into a bencoded integer. Bencoded integers are represented by an 'i' followed by the number
         # in base 10 followed by an 'e'.
         #
-        #  3.bencode #=> "i3e"
-        # -3.bencode #=> "i-3e"
+        #   3.bencode #=> "i3e"
+        #   -3.bencode #=> "i-3e"
+        #
+        # @return [String] the bencoded integer
         def bencode
           [:i, self, :e].join
         end

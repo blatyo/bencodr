@@ -66,7 +66,7 @@ describe BEncode do
   context "when parsing and then encoding" do
     it "should be equal to the pre-parsed and encoded bencoded string" do
       file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
-      BEncode.decode_file(file).bencode.should == File.open(file, "rb").read
+      BEncode.decode_file(file).bencode.should == File.open(file, "rb") {|f| f.read}
     end
   end
 end
