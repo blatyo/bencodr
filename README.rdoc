@@ -2,6 +2,19 @@
 
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
 
+== Installation
+
+    # install the gem
+    > gem install bencode_blatyo
+    Successfully installed bencode_blatyo-1.0.0
+    1 gem installed
+    Installing ri documentation for bencode_blatyo-1.0.0...
+    Building YARD (yri) index for bencode_blatyo-1.0.0...
+    Installing RDoc documentation for bencode_blatyo-1.0.0.
+
+    # somefile.rb
+    require 'bencode_blatyo'
+
 == Examples
 === String
 BEncoded strings are length-prefixed base ten followed by a colon and the string.
