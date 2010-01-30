@@ -2,6 +2,79 @@
 
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
 
+== Examples
+=== String
+BEncoded strings are length-prefixed base ten followed by a colon and the string.
+
+    # strings
+    "".bencode              #=> "0:"
+    "string".bencode        #=> "6:string"
+
+    # symbols
+    :symbol.bencode         #=> "6:symbol"
+
+    # URIs
+    uri = URI.parse("http://github.com/blatyo/bencode")
+    uri.bencode             #=> "32:http://github.com/blatyo/bencode"
+
+=== Integer
+Bencoded integers are represented by an 'i' followed by the number in base 10 followed by an 'e'.
+
+    # integers
+    1.bencode               #=> "i1e"
+    -1.bencode              #=> "i-1e"
+    10_000_000_000.bencode  #=> "i10000000000e"
+
+    # other numerics
+    1.1.bencode             #=> "i1e"
+    -1e10.bencode           #=> "i-10000000000e"
+
+    # times
+    Time.at(4).bencode      #=> "i4e"
+
+=== List
+Bencoded lists are encoded as an 'l' followed by their elements (also bencoded) followed by an 'e'.
+
+    # arrays
+    [].bencode                        #=> "le"
+    [:e, "a", 1, Time.at(11)].bencode #=> "l1:e1:ai1ei11ee"
+
+=== Dictionary
+Bencoded dictionaries are encoded as a 'd' followed by a list of alternating keys and their corresponding values
+followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alphanumerics) and are always strings.
+
+    # hashes
+    {}.bencode                          #=> "de"
+    {"string" => "string"}.bencode      #=> "d6:string6:stringe"
+    {:symbol => :symbol}.bencode        #=> "d6:symbol6:symbole"
+    {1 => 1}.bencode                    #=> "d1:1i1ee"
+    {1.1 => 1.1}.bencode                #=> "d3:1.1i1ee"
+    {{} => {}}.bencode                  #=> "d2:{}dee"
+
+    time = Time.utc(0)
+    {time => time}.bencode              #=> "d23:2000-01-01 00:00:00 UTCi946684800ee"
+
+    array = (1..4).to_a
+    {array => array}.bencode            #=> "d12:[1, 2, 3, 4]li1ei2ei3ei4eee"
+
+    # Note: keys are sorted as raw strings.
+    {:a => 1, "A" => 1, 1=> 1}.bencode  #=> "d1:1i1e1:Ai1e1:ai1ee"
+
+=== Encoding and Decoding
+
+    # encoding is just like calling bencode on the object
+    BEncode.encode("string")    #=> "6:string"
+
+    # decoding takes a string and return either a String, Integer, Array, or Hash
+    BEncode.decode("6:string")  #=> "string"
+    BEncode.decode("i1e")       #=> 1
+    BEncode.decode("le")        #=> []
+    BEncode.decode("de")        #=> {}
+
+    # you can work directly with files too
+    BEncode.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
+    BEncode.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
