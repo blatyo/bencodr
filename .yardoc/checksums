@@ -1,8 +1,0 @@
-LICENSE 66f5db6dea83778c5a5415b27f524ab8133c3339
-README.rdoc 46a392d8e8727e15b2a97ff93f5d957ca77667d9
-lib/bencode.rb 5c225a80984f2a8120e8ea3d7284d655be53376c
-lib/bencode/list.rb 1e3885c43593ba108426a6ee49dae1976cfd7ee2
-lib/bencode/parser.rb 484ae60af89a84c9d7b995f4e03ef6d49eca0eb4
-lib/bencode/string.rb eae6f5a6c4500dc0bbc138abfaf233fada6a7e95
-lib/bencode/integer.rb 7b4feacee32640c5fd33924f0ff9d63ce49354c8
-lib/bencode/dictionary.rb 771b32b545b1bc68f17ddc9365a907568cf22904
