@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require "spec"
 require "spec_helper"
 
@@ -34,8 +36,8 @@ describe BEncode do
 
   context "when parsing and then encoding" do
     it "should be equal to the pre-parsed and encoded bencoded string" do
-      bencoded_string = File.read(File.dirname(__FILE__) + "/samples/bencode.rb.torrent")
-      BEncode.parse(bencoded_string).bencode.should == bencoded_string      
+      file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
+      BEncode.parse_file(file).bencode.should == File.open(file, "rb").read
     end
   end
 end

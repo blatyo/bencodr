@@ -1,10 +1,12 @@
+# encoding: UTF-8
+
 path = File.expand_path(File.dirname(__FILE__)) + "/bencode"
 
-require "#{path}/string"
-require "#{path}/integer"
-require "#{path}/list"
-require "#{path}/dictionary"
-require "#{path}/parser"
+require path + "/string"
+require path + "/integer"
+require path + "/list"
+require path + "/dictionary"
+require path + "/parser"
 
 module BEncode
   class BEncodeError < StandardError; end
@@ -16,7 +18,7 @@ module BEncode
     end
 
     def parse_file(file)
-      parse(File.read(file))
+      parse(File.open(file, 'rb').read)
     end
   end
 end

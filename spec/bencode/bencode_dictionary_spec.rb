@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require "spec"
 require "spec_helper"
 
@@ -31,16 +33,16 @@ describe Hash do
 
       it "should encode a time key as a string" do
         time = Time.utc(0)
-        {time => time}.bencode.should == "d28:Sat Jan 01 00:00:00 UTC 2000i946684800ee"
+        {time => time}.bencode.should == "d23:2000-01-01 00:00:00 UTCi946684800ee"
       end
 
       it "should encode an array key as a string" do
         array = (1..4).to_a
-        {array => array}.bencode.should == "d4:1234li1ei2ei3ei4eee"
+        {array => array}.bencode.should == "d12:[1, 2, 3, 4]li1ei2ei3ei4eee"
       end
 
       it "should encode a hash key as a string" do
-        {{} => {}}.bencode.should == "d0:dee"
+        {{} => {}}.bencode.should == "d2:{}dee"
       end
     end
 

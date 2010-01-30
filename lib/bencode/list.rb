@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module BEncode
   module List
     module Generic

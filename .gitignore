@@ -20,3 +20,5 @@ pkg
 
 ## PROJECT::SPECIFIC
 .idea
+doc
+.yardoc
