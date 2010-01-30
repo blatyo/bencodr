@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "autotest/discover.rb",
+     "bencode_blatyo.gemspec",
      "lib/bencode.rb",
      "lib/bencode/dictionary.rb",
      "lib/bencode/integer.rb",
