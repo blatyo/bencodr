@@ -1,6 +1,34 @@
 require "spec"
 
 describe BEncode::Parser do
+  describe "#parse_object" do
+    # Most of this functionality is covered with other tests. So minimal stuff here.
+    it "should parse a bencoded string" do
+      scanner = StringScanner.new("6:string")
+      BEncode::Parser.parse_object(scanner).should == "string"
+    end
+
+    it "should parse a bencoded integer" do
+      scanner = StringScanner.new("i4e")
+      BEncode::Parser.parse_object(scanner).should == 4
+    end
+
+    it "should parse a bencoded list" do
+      scanner = StringScanner.new("l6:stringeeeee")
+      BEncode::Parser.parse_object(scanner).should == ["string"]
+    end
+
+    it "should parse a bencoded dictionary containing a key value pair" do
+      scanner = StringScanner.new("d6:stringi1ee")
+      BEncode::Parser.parse_object(scanner).should == {"string" => 1}
+    end
+
+    it "should return nil when the type is not recognized" do
+      scanner = StringScanner.new("freak out!")
+      BEncode::Parser.parse_object(scanner).should == nil
+    end
+  end
+
   describe "#parse_stirng" do
     it "should parse a bencoded string" do
       scanner = StringScanner.new("6:string")

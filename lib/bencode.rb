@@ -8,4 +8,15 @@ require "#{path}/parser"
 
 module BEncode
   class BEncodeError < StandardError; end
+
+  class << self
+    def parse(string)
+      scanner = StringScanner.new(string)
+      Parser.parse_object(scanner) or raise BEncodeError, "Invalid bencoding"
+    end
+
+    def parse_file(file)
+      parse(File.read(file))
+    end
+  end
 end
