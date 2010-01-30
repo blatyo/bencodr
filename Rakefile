@@ -4,12 +4,12 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "bencode"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.name = "bencode_blatyo"
+    gem.summary = "This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol."
+    gem.description = "This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol."
     gem.email = "blatyo@gmail.com"
     gem.homepage = "http://github.com/blatyo/bencode"
-    gem.authors = ["blatyo"]
+    gem.authors = ["Allen Madsen"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "yard", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
