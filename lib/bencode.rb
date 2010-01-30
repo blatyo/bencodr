@@ -12,13 +12,21 @@ module BEncode
   class BEncodeError < StandardError; end
 
   class << self
-    def parse(string)
+    def decode(string)
       scanner = StringScanner.new(string)
       Parser.parse_object(scanner) or raise BEncodeError, "Invalid bencoding"
     end
 
-    def parse_file(file)
-      parse(File.open(file, 'rb').read)
+    def decode_file(file)
+      decode(File.open(file, 'rb') {|f| f.read})
+    end
+
+    def encode(object)
+      object.bencode
+    end
+
+    def encode_file(file, object)
+      File.open(file, 'wb') {|f| f.write encode(object)}
     end
   end
 end
