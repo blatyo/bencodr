@@ -1,5 +1,10 @@
-= BEncode
+= BEncode 1.0
+*Author* Allen Madsen (blatyo)
+*Gem* http://gemcutter.org/gems/bencode_blatyo
+*Source* http://github.com/blatyo/bencode
+*Documentation* http://blatyo.github.com/bencode
 
+== Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
 
 == Installation
@@ -13,7 +18,7 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
     Installing RDoc documentation for bencode_blatyo-1.0.0.
 
     # somefile.rb
-    require 'bencode_blatyo'
+    require 'bencode'
 
 == Examples
 === String
@@ -88,8 +93,38 @@ followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alph
     BEncode.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
     BEncode.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
 
+=== Registering Types
+When using bencodings it may be useful to translate your own objects into bencoded strings. You can do that with the
+register methods on each BEncode type. All register does is define a bencode instance method for the class that
+internally uses type conversion. That means if you want to specify a String type then your class must have a to_s or
+to_str instance method. The same goes for all the other types.
+
+Keep in mind when registering that if you register a class for two separate types it will only retain the bencode method
+of the last type registered for.
+
+    # register string type
+    BEncode::String.register Range
+    (1..2).bencode      #=> "4:1..2"
+
+    # register integer type
+    BEncode::Integer.register NilClass
+    nil.bencode         #=> "i0e"
+
+    # register list type
+    BEncode::List.register Range
+    (1..2).bencode      #=> "li1ei2ee"
+
+    #register dictionary type
+    MyClass = Class.new do
+      def to_h
+        {:a => "a", :b => "b"}
+      end
+    end
+    BEncode::Dictionary.register MyClass
+    MyClass.new.bencode #=> "d1:a1:a1:b1:be"
+
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
