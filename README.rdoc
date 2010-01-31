@@ -1,7 +1,10 @@
 = BEncode 1.0
 *Author* Allen Madsen (blatyo)
+
 *Gem* http://gemcutter.org/gems/bencode_blatyo
+
 *Source* http://github.com/blatyo/bencode
+
 *Documentation* http://blatyo.github.com/bencode
 
 == Synopsis
