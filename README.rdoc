@@ -1,9 +1,10 @@
-= BEncode 1.0
+= BEncode 1.0.1
 * *Author* Allen Madsen (blatyo)
 * *My* *Site* http://www.allenmadsen.com
 * *Gem* http://gemcutter.org/gems/bencode_blatyo
 * *Source* http://github.com/blatyo/bencode
 * *Documentation* http://blatyo.github.com/bencode
+* *Issue Tracker* http://github.com/blatyo/bencode/issues 
 
 == Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
@@ -123,6 +124,13 @@ of the last type registered for.
     end
     BEncode::Dictionary.register MyClass
     MyClass.new.bencode #=> "d1:a1:a1:b1:be"
+
+== Note on Reporting Issues
+
+* Try to make a failing test case
+* Tell me which version of ruby you're using
+* Tell me which OS you are using
+* Provide me with any extra files if necessary
 
 == Note on Patches/Pull Requests
 
