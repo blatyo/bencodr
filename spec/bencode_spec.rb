@@ -43,8 +43,13 @@ describe BEncode do
 
   describe "#encode_file" do
     context "when an object gets bencoded and written to a file" do
+      before :all do
+        @path = File.join(File.dirname(__FILE__), '..', 'tmp')
+        Dir.mkdir(@path) unless File.exists? @path
+      end
+
       before :each do
-        @file = File.join(File.dirname(__FILE__), '..', 'tmp', 'test.bencode')
+        @file = File.join(@path, 'test.bencode')
         @object = "string"
         BEncode.encode_file(@file, @object)
       end
@@ -60,6 +65,15 @@ describe BEncode do
       after :each do
         File.delete(@file)
       end
+
+      after :all do
+        Dir.delete(@path) if File.exists? @path
+      end
+    end
+
+    it "should read a torrent with newlines as part of a string without raising an error" do
+      file = File.join(File.dirname(__FILE__), 'samples', 'python.torrent')
+      lambda{BEncode.decode_file file}.should_not raise_error
     end
   end
 

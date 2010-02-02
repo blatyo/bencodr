@@ -37,7 +37,7 @@ module BEncode
       def parse_string(scanner)
         length = scanner.scan(/[1-9][0-9]*|0/)    or raise BEncodeError, "Invalid string: length invalid. #{scanner.pos}"
         scanner.scan(/:/)                         or raise BEncodeError, "Invalid string: missing colon(:). #{scanner.pos}"
-        scanner.scan(/.{#{length.to_i}}/)         or raise BEncodeError, "Invalid string: length too long(#{length}) #{scanner.pos}."
+        scanner.scan(/.{#{length}}/m)             or raise BEncodeError, "Invalid string: length too long(#{length}) #{scanner.pos}."
       end
 
       # This method parases a bencoded integer.
