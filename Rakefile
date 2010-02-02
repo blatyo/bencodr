@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "bencode_blatyo"
-    gem.summary = "This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol."
-    gem.description = "This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol."
+    gem.summary = "This gem has been renamed to bencodr. Use that one instead."
+    gem.description = "This gem has been renamed to bencodr. Use that one instead."
     gem.email = "blatyo@gmail.com"
     gem.homepage = "http://github.com/blatyo/bencode"
     gem.authors = ["Allen Madsen"]
