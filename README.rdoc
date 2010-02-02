@@ -4,7 +4,7 @@
 * *Gem* http://gemcutter.org/gems/bencode_blatyo
 * *Source* http://github.com/blatyo/bencode
 * *Documentation* http://blatyo.github.com/bencode
-* *Issue Tracker* http://github.com/blatyo/bencode/issues 
+* *Issue* *Tracker* http://github.com/blatyo/bencode/issues 
 
 == Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
