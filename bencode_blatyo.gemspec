@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bencode_blatyo}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Allen Madsen"]
-  s.date = %q{2010-01-30}
+  s.date = %q{2010-02-01}
   s.description = %q{This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.}
   s.email = %q{blatyo@gmail.com}
   s.extra_rdoc_files = [
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
      "spec/bencode_spec.rb",
      "spec/samples/bencode.rb.torrent",
      "spec/samples/mini.bencode",
+     "spec/samples/python.torrent",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
