@@ -9,7 +9,7 @@ module BEncode
         #
         #   1.bencode #=> "i1e"
         #
-        # @return [String] the bencoded integer
+        # @return [::String] the bencoded integer
         def bencode
           (respond_to?(:to_i) ? to_i : to_int).bencode
         end
@@ -45,7 +45,7 @@ module BEncode
         #   3.bencode #=> "i3e"
         #   -3.bencode #=> "i-3e"
         #
-        # @return [String] the bencoded integer
+        # @return [::String] the bencoded integer
         def bencode
           [:i, self, :e].join
         end

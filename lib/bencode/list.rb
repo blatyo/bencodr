@@ -9,7 +9,7 @@ module BEncode
         #
         #   [].bencode #=> "le"
         #
-        # @return [String] the bencoded list
+        # @return [::String] the bencoded list
         def bencode
           (respond_to?(:to_ary) ? to_ary : to_a).bencode
         end
@@ -41,7 +41,7 @@ module BEncode
         #
         #   [:eggs, "ham", 3, 4.1].bencode #=> "l4:eggs3:hami3ei4ee"
         #
-        # @return [String] the bencoded list
+        # @return [::String] the bencoded list
         def bencode
           collect do |element|
             element.bencode

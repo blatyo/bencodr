@@ -11,7 +11,7 @@ module BEncode
       #   BEncode::Parser.parse_object(scanner) #=> "string"
       #
       # @param [StringScanner] scanner the scanner of a bencoded object
-      # @return [String, Integer, Hash, Array, nil] an object if type is recognized or nil
+      # @return [::String, ::Integer, ::Hash, ::Array, nil] an object if type is recognized or nil
       def parse_object(scanner)
         case scanner.peek(1)[0]
           when ?0..?9
@@ -33,7 +33,7 @@ module BEncode
       #   BEncode::Parser.parse_string(scanner) #=> "string"
       #
       # @param [StringScanner] scanner the scanner of a bencoded string
-      # @return [String] the parsed string
+      # @return [::String] the parsed string
       def parse_string(scanner)
         length = scanner.scan(/[1-9][0-9]*|0/)    or raise BEncodeError, "Invalid string: length invalid. #{scanner.pos}"
         scanner.scan(/:/)                         or raise BEncodeError, "Invalid string: missing colon(:). #{scanner.pos}"
@@ -46,7 +46,7 @@ module BEncode
       #   BEncode::Parser.parse_integer(scanner) #=> 1
       #
       # @param [StringScanner] scanner the scanner of a bencoded integer
-      # @return [Integer] the parsed integer
+      # @return [::Integer] the parsed integer
       def parse_integer(scanner)
         scanner.scan(/i/)                         or raise BEncodeError, "Invalid integer: missing opening i. #{scanner.pos}"
         integer = scanner.scan(/-?[1-9][0-9]*|0/) or raise BEncodeError, "Invalid integer: valid integer not found. #{scanner.pos}"
@@ -60,7 +60,7 @@ module BEncode
       #   BEncode::Parser.parse_list(scanner) #=> []
       #
       # @param [StringScanner] scanner the scanner of a bencoded list
-      # @return [Array] the parsed array
+      # @return [::Array] the parsed array
       def parse_list(scanner)
         list = []
 
@@ -81,7 +81,7 @@ module BEncode
       #   BEncode::Parser.parse_dictionary(scanner) #=> {}
       #
       # @param [StringScanner] scanner the scanner of a bencoded dictionary
-      # @return [Hash] the parsed hash
+      # @return [::Hash] the parsed hash
       def parse_dictionary(scanner)
         dictionary = {}
 

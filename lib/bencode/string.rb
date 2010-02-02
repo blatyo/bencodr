@@ -11,7 +11,7 @@ module BEncode
         #
         #   :symbol.bencode #=> "6:symbol"
         #
-        # @return [String] the bencoded string
+        # @return [::String] the bencoded string
         def bencode
           (respond_to?(:to_s) ? to_s : to_str).bencode
         end
@@ -46,7 +46,7 @@ module BEncode
         #
         #   "string".bencode #=> "6:string"
         #
-        # @return [String] the bencoded string
+        # @return [::String] the bencoded string
         def bencode
           [length, ':', self].join
         end

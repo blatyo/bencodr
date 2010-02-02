@@ -10,7 +10,7 @@ module BEncode
         #
         #   {:cow => "moo", :seven => 7}.bencode #=> "d3:cow3:moo5:seveni7ee"
         #
-        # @return [String] the bencoded dictionary
+        # @return [::String] the bencoded dictionary
         def bencode
           (respond_to?(:to_h) ? to_h : to_hash).bencode
         end
@@ -43,7 +43,7 @@ module BEncode
         #
         #   {:cow => "moo", :seven => 7}.bencode #=> "d3:cow3:moo5:seveni7ee"
         #
-        # @return [String] the bencoded dictionary 
+        # @return [::String] the bencoded dictionary 
         def bencode
           keys.sort{|a, b| a.to_s <=> b.to_s}.collect do |key|
             key.to_s.bencode + self[key].bencode
