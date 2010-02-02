@@ -4,7 +4,7 @@ require "spec"
 require "spec_helper"
 
 describe Integer do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode a positive integer" do
       1.bencode.should == "i1e"
     end
@@ -24,7 +24,7 @@ describe Integer do
 end
 
 describe Numeric do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode a positive float with precision loss" do
       1.1.bencode.should == "i1e"
     end
@@ -44,22 +44,22 @@ describe Numeric do
 end
 
 describe Time do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode to bencoding" do
       Time.at(4).bencode.should == "i4e"
     end
   end
 end
 
-describe BEncode::Integer do
+describe BEncodr::Integer do
   describe "#register" do
     context "once an object has been registered as a BEncode integer" do
       before :all do
-        BEncode::Integer.register NilClass
+        BEncodr::Integer.register NilClass
       end
 
       context "an instance of that object" do
-        it "should respond to bencode" do
+        it "should respond to bencodr" do
           nil.should respond_to :bencode
         end
 

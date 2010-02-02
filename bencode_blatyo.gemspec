@@ -26,35 +26,35 @@ Gem::Specification.new do |s|
      "VERSION",
      "autotest/discover.rb",
      "bencode_blatyo.gemspec",
-     "lib/bencode.rb",
-     "lib/bencode/dictionary.rb",
-     "lib/bencode/integer.rb",
-     "lib/bencode/list.rb",
-     "lib/bencode/parser.rb",
-     "lib/bencode/string.rb",
-     "spec/bencode/dictionary_spec.rb",
-     "spec/bencode/integer_spec.rb",
-     "spec/bencode/list_spec.rb",
-     "spec/bencode/parser_spec.rb",
-     "spec/bencode/string_spec.rb",
+     "lib/bencodr.rb",
+     "lib/bencodr/dictionary.rb",
+     "lib/bencodr/integer.rb",
+     "lib/bencodr/list.rb",
+     "lib/bencodr/parser.rb",
+     "lib/bencodr/string.rb",
+     "spec/bencodr/dictionary_spec.rb",
+     "spec/bencodr/integer_spec.rb",
+     "spec/bencodr/list_spec.rb",
+     "spec/bencodr/parser_spec.rb",
+     "spec/bencodr/string_spec.rb",
      "spec/bencode_spec.rb",
-     "spec/samples/bencode.rb.torrent",
-     "spec/samples/mini.bencode",
+     "spec/samples/bencodr.rb.torrent",
+     "spec/samples/mini.bencodr",
      "spec/samples/python.torrent",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/blatyo/bencode}
+  s.homepage = %q{http://github.com/blatyo/bencodr}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{This gem has been renamed to bencodr. Use that one instead.}
   s.test_files = [
-    "spec/bencode/dictionary_spec.rb",
-     "spec/bencode/integer_spec.rb",
-     "spec/bencode/list_spec.rb",
-     "spec/bencode/parser_spec.rb",
-     "spec/bencode/string_spec.rb",
+    "spec/bencodr/dictionary_spec.rb",
+     "spec/bencodr/integer_spec.rb",
+     "spec/bencodr/list_spec.rb",
+     "spec/bencodr/parser_spec.rb",
+     "spec/bencodr/string_spec.rb",
      "spec/bencode_spec.rb",
      "spec/spec_helper.rb"
   ]

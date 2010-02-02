@@ -4,7 +4,7 @@ require "spec"
 require "spec_helper"
 
 describe Hash do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode an empty hash" do
       {}.bencode.should == "de"
     end
@@ -52,7 +52,7 @@ describe Hash do
   end
 end
 
-describe BEncode::Dictionary do
+describe BEncodr::Dictionary do
   describe "#register" do
     context "once an object has been registered as a BEncode dictionary" do
       before :all do
@@ -61,12 +61,12 @@ describe BEncode::Dictionary do
             {:a => "a", :b => "b"}
           end
         end
-        BEncode::Dictionary.register klass
+        BEncodr::Dictionary.register klass
         @instance = klass.new
       end
 
       context "an instance of that object" do
-        it "should respond to bencode" do
+        it "should respond to bencodr" do
           @instance.should respond_to :bencode
         end
 

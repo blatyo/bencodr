@@ -3,41 +3,41 @@
 require "spec"
 require "spec_helper"
 
-describe BEncode do
+describe BEncodr do
   describe "#decode" do
     # Most of this is covered in other tests. Only difference is this accepts string instead of scanner.
     it "should parse a bencoded string" do
-      BEncode.decode("6:string").should == "string"
+      BEncodr.decode("6:string").should == "string"
     end
 
     it "should parse a bencoded integer" do
-      BEncode.decode("i4e").should == 4
+      BEncodr.decode("i4e").should == 4
     end
 
     it "should parse a bencoded list" do
-      BEncode.decode("l6:stringeeeee").should == ["string"]
+      BEncodr.decode("l6:stringeeeee").should == ["string"]
     end
 
     it "should parse a bencoded dictionary containing a key value pair" do
-      BEncode.decode("d6:stringi1ee").should == {"string" => 1}
+      BEncodr.decode("d6:stringi1ee").should == {"string" => 1}
     end
 
     it "should raise an error when the type is not recognized" do
-      lambda{BEncode.decode("freak out!")}.should raise_error BEncode::BEncodeError
+      lambda{BEncodr.decode("freak out!")}.should raise_error BEncodr::BEncodeError
     end
   end
 
   describe "#decode_file" do
     it "should parse a bencoded file" do
       dirname = File.dirname(__FILE__)
-      BEncode.decode_file("#{dirname}/samples/mini.bencode").should == {"ba" => 3}
+      BEncodr.decode_file("#{dirname}/samples/mini.bencode").should == {"ba" => 3}
     end
   end
 
   describe "#encode" do
     # Covered in other tests so only simple stuff here. 
-    it "should bencode an object" do
-      BEncode.encode("string").should == "6:string"
+    it "should bencodr an object" do
+      BEncodr.encode("string").should == "6:string"
     end
   end
 
@@ -49,9 +49,9 @@ describe BEncode do
       end
 
       before :each do
-        @file = File.join(@path, 'test.bencode')
+        @file = File.join(@path, 'test.bencodr')
         @object = "string"
-        BEncode.encode_file(@file, @object)
+        BEncodr.encode_file(@file, @object)
       end
 
       it "should actually write a file" do
@@ -59,7 +59,7 @@ describe BEncode do
       end
 
       it "should properly encode the file" do
-        BEncode.decode_file(@file).should == @object
+        BEncodr.decode_file(@file).should == @object
       end
 
       after :each do
@@ -73,14 +73,14 @@ describe BEncode do
 
     it "should read a torrent with newlines as part of a string without raising an error" do
       file = File.join(File.dirname(__FILE__), 'samples', 'python.torrent')
-      lambda{BEncode.decode_file file}.should_not raise_error
+      lambda{BEncodr.decode_file file}.should_not raise_error
     end
   end
 
   context "when parsing and then encoding" do
     it "should be equal to the pre-parsed and encoded bencoded string" do
       file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
-      BEncode.decode_file(file).bencode.should == File.open(file, "rb") {|f| f.read}
+      BEncodr.decode_file(file).bencode.should == File.open(file, "rb") {|f| f.read}
     end
   end
 end

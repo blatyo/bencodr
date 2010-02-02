@@ -1,10 +1,10 @@
-= BEncode
+= BEncodr
 * *Author* Allen Madsen (blatyo)
 * *My* *Site* http://www.allenmadsen.com
-* *Gem* http://gemcutter.org/gems/bencode_blatyo
-* *Source* http://github.com/blatyo/bencode
-* *Documentation* http://blatyo.github.com/bencode
-* *Issue* *Tracker* http://github.com/blatyo/bencode/issues 
+* *Gem* http://gemcutter.org/gems/bencodr
+* *Source* http://github.com/blatyo/bencodr
+* *Documentation* http://blatyo.github.com/bencodr
+* *Issue* *Tracker* http://github.com/blatyo/bencodr/issues 
 
 == Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
@@ -12,15 +12,15 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
 == Installation
 
     # install the gem
-    > gem install bencode_blatyo
-    Successfully installed bencode_blatyo
+    > gem install bencodr
+    Successfully installed bencodr
     1 gem installed
-    Installing ri documentation for bencode_blatyo...
-    Building YARD (yri) index for bencode_blatyo...
-    Installing RDoc documentation for bencode_blatyo
+    Installing ri documentation for bencodr...
+    Building YARD (yri) index for bencodr...
+    Installing RDoc documentation for bencodr
 
     # somefile.rb
-    require 'bencode'
+    require 'bencodr'
 
 == Examples
 === String
@@ -83,17 +83,17 @@ followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alph
 === Encoding and Decoding
 
     # encoding is just like calling bencode on the object
-    BEncode.encode("string")    #=> "6:string"
+    BEncodr.encode("string")    #=> "6:string"
 
     # decoding takes a string and return either a String, Integer, Array, or Hash
-    BEncode.decode("6:string")  #=> "string"
-    BEncode.decode("i1e")       #=> 1
-    BEncode.decode("le")        #=> []
-    BEncode.decode("de")        #=> {}
+    BEncodr.decode("6:string")  #=> "string"
+    BEncodr.decode("i1e")       #=> 1
+    BEncodr.decode("le")        #=> []
+    BEncodr.decode("de")        #=> {}
 
     # you can work directly with files too
-    BEncode.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
-    BEncode.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
+    BEncodr.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
+    BEncodr.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
 
 === Registering Types
 When using bencodings it may be useful to translate your own objects into bencoded strings. You can do that with the
@@ -105,15 +105,15 @@ Keep in mind when registering that if you register a class for two separate type
 of the last type registered for.
 
     # register string type
-    BEncode::String.register Range
+    BEncodr::String.register Range
     (1..2).bencode      #=> "4:1..2"
 
     # register integer type
-    BEncode::Integer.register NilClass
+    BEncodr::Integer.register NilClass
     nil.bencode         #=> "i0e"
 
     # register list type
-    BEncode::List.register Range
+    BEncodr::List.register Range
     (1..2).bencode      #=> "li1ei2ee"
 
     #register dictionary type
@@ -122,7 +122,7 @@ of the last type registered for.
         {:a => "a", :b => "b"}
       end
     end
-    BEncode::Dictionary.register MyClass
+    BEncodr::Dictionary.register MyClass
     MyClass.new.bencode #=> "d1:a1:a1:b1:be"
 
 == Note on Reporting Issues

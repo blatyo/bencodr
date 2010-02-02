@@ -4,7 +4,7 @@ require "spec"
 require "spec_helper"
 
 describe Array do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode an empty array" do
       [].bencode.should == "le"
     end
@@ -15,15 +15,15 @@ describe Array do
   end
 end
 
-describe BEncode::List do
+describe BEncodr::List do
   describe "#register" do
     context "once an object has been registered as a BEncode list" do
       before :all do
-        BEncode::List.register Range
+        BEncodr::List.register Range
       end
 
       context "an instance of that object" do
-        it "should respond to bencode" do
+        it "should respond to bencodr" do
           (1..2).should respond_to :bencode
         end
 

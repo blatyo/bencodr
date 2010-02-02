@@ -2,13 +2,13 @@
 
 require 'strscan'
 
-module BEncode
+module BEncodr
   module Parser
     class << self
       # This method parases a bencoded object.
       #
       #   scanner = StringScanner.new("6:string")
-      #   BEncode::Parser.parse_object(scanner) #=> "string"
+      #   BEncodr::Parser.parse_object(scanner) #=> "string"
       #
       # @param [StringScanner] scanner the scanner of a bencoded object
       # @return [::String, ::Integer, ::Hash, ::Array, nil] an object if type is recognized or nil
@@ -30,7 +30,7 @@ module BEncode
       # This method parases a bencoded string.
       #
       #   scanner = StringScanner.new("6:string")
-      #   BEncode::Parser.parse_string(scanner) #=> "string"
+      #   BEncodr::Parser.parse_string(scanner) #=> "string"
       #
       # @param [StringScanner] scanner the scanner of a bencoded string
       # @return [::String] the parsed string
@@ -43,7 +43,7 @@ module BEncode
       # This method parases a bencoded integer.
       #
       #   scanner = StringScanner.new("i1e")
-      #   BEncode::Parser.parse_integer(scanner) #=> 1
+      #   BEncodr::Parser.parse_integer(scanner) #=> 1
       #
       # @param [StringScanner] scanner the scanner of a bencoded integer
       # @return [::Integer] the parsed integer
@@ -57,7 +57,7 @@ module BEncode
       # This method parases a bencoded list.
       #
       #   scanner = StringScanner.new("le")
-      #   BEncode::Parser.parse_list(scanner) #=> []
+      #   BEncodr::Parser.parse_list(scanner) #=> []
       #
       # @param [StringScanner] scanner the scanner of a bencoded list
       # @return [::Array] the parsed array
@@ -78,7 +78,7 @@ module BEncode
       # This method parases a bencoded dictionary.
       #
       #   scanner = StringScanner.new("de")
-      #   BEncode::Parser.parse_dictionary(scanner) #=> {}
+      #   BEncodr::Parser.parse_dictionary(scanner) #=> {}
       #
       # @param [StringScanner] scanner the scanner of a bencoded dictionary
       # @return [::Hash] the parsed hash

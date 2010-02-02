@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-module BEncode
+module BEncodr
   module Dictionary
     module Generic
       module InstanceMethods
@@ -8,7 +8,7 @@ module BEncode
         # alternating keys and their corresponding values followed by an 'e'. Keys appear in sorted order (sorted as raw
         # strings, not alphanumerics).
         #
-        #   {:cow => "moo", :seven => 7}.bencode #=> "d3:cow3:moo5:seveni7ee"
+        #   {:cow => "moo", :seven => 7}.bencodr #=> "d3:cow3:moo5:seveni7ee"
         #
         # @return [::String] the bencoded dictionary
         def bencode
@@ -26,11 +26,11 @@ module BEncode
     #     end
     #   end
     #
-    #   BEncode::String.register MyClass
+    #   BEncodr::String.register MyClass
     #   my_class = MyClass.new
-    #   my_class.bencode  #=> "d1:a1:a1:bi1ee"
+    #   my_class.bencodr  #=> "d1:a1:a1:bi1ee"
     #
-    # @param [Class#to_h, Class#to_hash] type the class to add the bencode instance method to
+    # @param [Class#to_h, Class#to_hash] type the class to add the bencodr instance method to
     def self.register(type)
       type.send :include, Generic::InstanceMethods
     end
@@ -41,7 +41,7 @@ module BEncode
         # alternating keys and their corresponding values followed by an 'e'. Keys appear in sorted order (sorted as raw
         # strings, not alphanumerics).
         #
-        #   {:cow => "moo", :seven => 7}.bencode #=> "d3:cow3:moo5:seveni7ee"
+        #   {:cow => "moo", :seven => 7}.bencodr #=> "d3:cow3:moo5:seveni7ee"
         #
         # @return [::String] the bencoded dictionary 
         def bencode

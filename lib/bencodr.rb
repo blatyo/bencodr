@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-path = File.expand_path(File.dirname(__FILE__)) + "/bencode"
+path = File.expand_path(File.dirname(__FILE__)) + "/bencodr"
 
 require path + "/string"
 require path + "/integer"
@@ -8,7 +8,7 @@ require path + "/list"
 require path + "/dictionary"
 require path + "/parser"
 
-module BEncode
+module BEncodr
   class BEncodeError < StandardError; end
 
   class << self
@@ -37,7 +37,7 @@ module BEncode
     #
     #   BEncode.encode("string") #=> "6:string"
     #
-    # @param [#bencode] object the object to encode
+    # @param [#bencodr] object the object to encode
     # @return [::String] the bencoded object
     def encode(object)
       object.bencode
@@ -48,7 +48,7 @@ module BEncode
     #   BEncode.encode("string") #=> "6:string"
     #
     # @param [::String] file the file to write the bencoded object to
-    # @param [#bencode] object the object to encode
+    # @param [#bencodr] object the object to encode
     def encode_file(file, object)
       File.open(file, 'wb') {|f| f.write encode(object)}
     end

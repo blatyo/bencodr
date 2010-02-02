@@ -4,7 +4,7 @@ require "spec"
 require "spec_helper"
 
 describe String do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode a string" do
       "string".bencode.should == "6:string"
     end
@@ -16,7 +16,7 @@ describe String do
 end
 
 describe Symbol do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode a symbol" do
       :symbol.bencode.should == "6:symbol"
     end
@@ -24,25 +24,25 @@ describe Symbol do
 end
 
 describe URI::Generic do
-  describe "#bencode" do
+  describe "#bencodr" do
     it "should encode a http uri" do
-      uri = URI.parse("http://github.com/blatyo/bencode")
-      uri.bencode.should == "32:http://github.com/blatyo/bencode"
+      uri = URI.parse("http://github.com/blatyo/bencodr")
+      uri.bencode.should == "32:http://github.com/blatyo/bencodr"
     end
 
     it "should encode a https uri" do
-      uri = URI.parse("https://github.com/blatyo/bencode")
-      uri.bencode.should == "33:https://github.com/blatyo/bencode"
+      uri = URI.parse("https://github.com/blatyo/bencodr")
+      uri.bencode.should == "33:https://github.com/blatyo/bencodr"
     end
 
     it "should encode a ftp uri" do
-      uri = URI.parse("ftp://github.com/blatyo/bencode")
-      uri.bencode.should == "31:ftp://github.com/blatyo/bencode"
+      uri = URI.parse("ftp://github.com/blatyo/bencodr")
+      uri.bencode.should == "31:ftp://github.com/blatyo/bencodr"
     end
 
     it "should encode a ldap uri" do
-      uri = URI.parse("ldap://github.com/blatyo/bencode")
-      uri.bencode.should == "32:ldap://github.com/blatyo/bencode"
+      uri = URI.parse("ldap://github.com/blatyo/bencodr")
+      uri.bencode.should == "32:ldap://github.com/blatyo/bencodr"
     end
 
     it "should encode a mailto uri" do
@@ -52,15 +52,15 @@ describe URI::Generic do
   end
 end
 
-describe BEncode::String do
+describe BEncodr::String do
   describe "#register" do
     context "once an object has been registered as a BEncode string" do
       before :all do
-        BEncode::String.register Range
+        BEncodr::String.register Range
       end
 
       context "an instance of that object" do
-        it "should respond to bencode" do
+        it "should respond to bencodr" do
           (1..2).should respond_to :bencode
         end
 

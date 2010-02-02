@@ -1,13 +1,13 @@
 # encoding: UTF-8
 
-module BEncode
+module BEncodr
   module Integer
     module Generic
       module InstanceMethods
         # Encodes object into a bencoded integer. BEncoded strings are length-prefixed base ten followed by a colon and
         # the string. Object must implement to_i or to_int.
         #
-        #   1.bencode #=> "i1e"
+        #   1.bencodr #=> "i1e"
         #
         # @return [::String] the bencoded integer
         def bencode
@@ -25,11 +25,11 @@ module BEncode
     #     end
     #   end
     #
-    #   BEncode::Integer.register MyClass
+    #   BEncodr::Integer.register MyClass
     #   my_class = MyClass.new
-    #   my_class.bencode  #=> "i1e"
+    #   my_class.bencodr  #=> "i1e"
     #
-    # @param [Class#to_i, Class#to_int] type the class to add the bencode instance method to
+    # @param [Class#to_i, Class#to_int] type the class to add the bencodr instance method to
     def self.register(type)
       type.send :include, Generic::InstanceMethods
     end
@@ -42,8 +42,8 @@ module BEncode
         # Encodes an integer into a bencoded integer. Bencoded integers are represented by an 'i' followed by the number
         # in base 10 followed by an 'e'.
         #
-        #   3.bencode #=> "i3e"
-        #   -3.bencode #=> "i-3e"
+        #   3.bencodr #=> "i3e"
+        #   -3.bencodr #=> "i-3e"
         #
         # @return [::String] the bencoded integer
         def bencode

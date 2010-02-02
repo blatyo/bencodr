@@ -2,14 +2,14 @@
 
 require 'uri'
 
-module BEncode
+module BEncodr
   module String
     module Generic
       module InstanceMethods
         # Encodes object into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
         # the string.
         #
-        #   :symbol.bencode #=> "6:symbol"
+        #   :symbol.bencodr #=> "6:symbol"
         #
         # @return [::String] the bencoded string
         def bencode
@@ -29,9 +29,9 @@ module BEncode
     #
     #   BEncode::String.register MyClass
     #   my_class = MyClass.new
-    #   my_class.bencode  #=> "6:string"
+    #   my_class.bencodr  #=> "6:string"
     #
-    # @param [Class#to_s, Class#to_str] type the class to add the bencode instance method to
+    # @param [Class#to_s, Class#to_str] type the class to add the bencodr instance method to
     def self.register(type)
       type.send :include, Generic::InstanceMethods
     end
@@ -44,7 +44,7 @@ module BEncode
         # Encodes a string into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
         # the string.
         #
-        #   "string".bencode #=> "6:string"
+        #   "string".bencodr #=> "6:string"
         #
         # @return [::String] the bencoded string
         def bencode
