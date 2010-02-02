@@ -1,4 +1,4 @@
-= BEncode 1.0.1
+= BEncode
 * *Author* Allen Madsen (blatyo)
 * *My* *Site* http://www.allenmadsen.com
 * *Gem* http://gemcutter.org/gems/bencode_blatyo
@@ -13,11 +13,11 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
 
     # install the gem
     > gem install bencode_blatyo
-    Successfully installed bencode_blatyo-1.0.1
+    Successfully installed bencode_blatyo
     1 gem installed
-    Installing ri documentation for bencode_blatyo-1.0.1...
-    Building YARD (yri) index for bencode_blatyo-1.0.1...
-    Installing RDoc documentation for bencode_blatyo-1.0.1.
+    Installing ri documentation for bencode_blatyo...
+    Building YARD (yri) index for bencode_blatyo...
+    Installing RDoc documentation for bencode_blatyo
 
     # somefile.rb
     require 'bencode'
