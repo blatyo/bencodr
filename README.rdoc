@@ -12,7 +12,7 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
 == Installation
 
     # install the gem
-    > gem install bencodr
+    > [sudo] gem install bencodr
     Successfully installed bencodr
     1 gem installed
     Installing ri documentation for bencodr...
@@ -80,12 +80,20 @@ followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alph
     # Note: keys are sorted as raw strings.
     {:a => 1, "A" => 1, 1=> 1}.bencode  #=> "d1:1i1e1:Ai1e1:ai1ee"
 
-=== Encoding and Decoding
+=== Decoding
+You can decode a bencoding by calling bdecode on the string.
+
+    "6:string".bdecode  #=> "string"
+    "i1e".bdecode       #=> 1
+    "le".bdecode        #=> []
+    "de".bdecode        #=> {}
+
+=== Encoding and Decoding with BEncodr
 
     # encoding is just like calling bencode on the object
     BEncodr.encode("string")    #=> "6:string"
 
-    # decoding takes a string and return either a String, Integer, Array, or Hash
+    # decoding is just like calling bdecode on a bencoding
     BEncodr.decode("6:string")  #=> "string"
     BEncodr.decode("i1e")       #=> 1
     BEncodr.decode("le")        #=> []

@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{bencode_blatyo}
+  s.name = %q{bencodr}
   s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Allen Madsen"]
   s.date = %q{2010-02-02}
-  s.description = %q{This gem has been renamed to bencodr. Use that one instead.}
+  s.description = %q{This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.}
   s.email = %q{blatyo@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -32,14 +32,14 @@ Gem::Specification.new do |s|
      "lib/bencodr/list.rb",
      "lib/bencodr/parser.rb",
      "lib/bencodr/string.rb",
+     "spec/bencode_spec.rb",
      "spec/bencodr/dictionary_spec.rb",
      "spec/bencodr/integer_spec.rb",
      "spec/bencodr/list_spec.rb",
      "spec/bencodr/parser_spec.rb",
      "spec/bencodr/string_spec.rb",
-     "spec/bencode_spec.rb",
-     "spec/samples/bencodr.rb.torrent",
-     "spec/samples/mini.bencodr",
+     "spec/samples/bencode.rb.torrent",
+     "spec/samples/mini.bencode",
      "spec/samples/python.torrent",
      "spec/spec.opts",
      "spec/spec_helper.rb"
@@ -48,14 +48,14 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{This gem has been renamed to bencodr. Use that one instead.}
+  s.summary = %q{This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.}
   s.test_files = [
-    "spec/bencodr/dictionary_spec.rb",
+    "spec/bencode_spec.rb",
+     "spec/bencodr/dictionary_spec.rb",
      "spec/bencodr/integer_spec.rb",
      "spec/bencodr/list_spec.rb",
      "spec/bencodr/parser_spec.rb",
      "spec/bencodr/string_spec.rb",
-     "spec/bencode_spec.rb",
      "spec/spec_helper.rb"
   ]
 

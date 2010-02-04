@@ -19,8 +19,7 @@ module BEncodr
     # @param [::String] string the bencoded string to decode
     # @return [::String, ::Integer, ::Hash, ::Array] the decoded object
     def decode(string)
-      scanner = StringScanner.new(string)
-      Parser.parse_object(scanner) or raise BEncodeError, "Invalid bencoding"
+      string.bdecode
     end
 
     # This method decodes a bencoded file.
@@ -29,8 +28,8 @@ module BEncodr
     #
     # @param [::String] file the file to decode
     # @return [::String, ::Integer, ::Hash, ::Array] the decoded object
-    def decode_file(file)
-      decode(File.open(file, 'rb') {|f| f.read})
+    def decode_file(name)
+      decode(File.open(name, 'rb') {|file| file.read})
     end
 
     # This method encodes a bencoded object.
@@ -49,8 +48,8 @@ module BEncodr
     #
     # @param [::String] file the file to write the bencoded object to
     # @param [#bencodr] object the object to encode
-    def encode_file(file, object)
-      File.open(file, 'wb') {|f| f.write encode(object)}
+    def encode_file(name, object)
+      File.open(name, 'wb') {|file| file.write encode(object)}
     end
   end
 end

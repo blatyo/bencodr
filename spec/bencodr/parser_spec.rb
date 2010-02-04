@@ -174,3 +174,23 @@ describe BEncodr::Parser do
     end
   end
 end
+
+describe String do
+  describe "#bdecode" do
+    it "should decode a bencoded string into a ruby string" do
+      "6:string".bdecode.should == "string"
+    end
+
+    it "should decode a bencoded integer into a ruby integer" do
+      "i-1e".bdecode.should == -1
+    end
+
+    it "should decode a bencoded list into a ruby array" do
+      "le".bdecode.should == []
+    end
+
+    it "should decode a bencoded dictionary into a ruby hash" do
+      "de".bdecode.should == {}
+    end
+  end
+end
