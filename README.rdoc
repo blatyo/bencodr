@@ -88,16 +88,37 @@ You can decode a bencoding by calling bdecode on the string.
     "le".bdecode        #=> []
     "de".bdecode        #=> {}
 
-=== Encoding and Decoding with BEncodr
+=== IO and Files
+You can also write and read bencodings.
+
+    # write to standard out
+    IO.bencode(1, "string")             #=> "6:string" to stdout
+    $stdout.bencode("string")           #=> "6:string" to stdout
+
+    # write to file
+    File.bencode("a.bencode", "string") #=> "6:string" to a.bencode
+    
+    file = File.open("a.bencode", "wb")
+    file.bencode("string")              #=> "6:string" to a.bencode
+
+    # read from standard in
+    IO.bdecode(0)                       #=> "string"
+    $stdin.bdecode                      #=> "string"
+
+    # read from file
+    File.bdecode("a.bencode")           #=> "string"
+
+    file = File.open("a.bencode", "wb")
+    file.bdecode                        #=> "string"
+
+=== BEncodr
+Most of the functionality of this library can also be accessed directly on the BEncodr class.
 
     # encoding is just like calling bencode on the object
     BEncodr.encode("string")    #=> "6:string"
 
     # decoding is just like calling bdecode on a bencoding
     BEncodr.decode("6:string")  #=> "string"
-    BEncodr.decode("i1e")       #=> 1
-    BEncodr.decode("le")        #=> []
-    BEncodr.decode("de")        #=> {}
 
     # you can work directly with files too
     BEncodr.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
@@ -152,4 +173,4 @@ of the last type registered for.
 
 == Copyright
 
-Copyright (c) 2010 blatyo. See LICENSE for details.
+Copyright (c) 2010 Allen Madsen. See LICENSE for details.
