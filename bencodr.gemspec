@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bencodr}
-  s.version = "1.1.0"
+  s.version = "1.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Allen Madsen"]
@@ -29,12 +29,14 @@ Gem::Specification.new do |s|
      "lib/bencodr.rb",
      "lib/bencodr/dictionary.rb",
      "lib/bencodr/integer.rb",
+     "lib/bencodr/io.rb",
      "lib/bencodr/list.rb",
      "lib/bencodr/parser.rb",
      "lib/bencodr/string.rb",
      "spec/bencode_spec.rb",
      "spec/bencodr/dictionary_spec.rb",
      "spec/bencodr/integer_spec.rb",
+     "spec/bencodr/io_spec.rb",
      "spec/bencodr/list_spec.rb",
      "spec/bencodr/parser_spec.rb",
      "spec/bencodr/string_spec.rb",
@@ -53,6 +55,7 @@ Gem::Specification.new do |s|
     "spec/bencode_spec.rb",
      "spec/bencodr/dictionary_spec.rb",
      "spec/bencodr/integer_spec.rb",
+     "spec/bencodr/io_spec.rb",
      "spec/bencodr/list_spec.rb",
      "spec/bencodr/parser_spec.rb",
      "spec/bencodr/string_spec.rb",
