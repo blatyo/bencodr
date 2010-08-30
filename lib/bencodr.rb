@@ -1,13 +1,13 @@
 # encoding: UTF-8
 
-path = File.expand_path(File.dirname(__FILE__)) + "/bencodr"
+path = File.expand_path(File.dirname(__FILE__)) + "/bencodr/"
 
-require path + "/string"
-require path + "/integer"
-require path + "/list"
-require path + "/dictionary"
-require path + "/parser"
-require path + "/io"
+require path + "string"
+require path + "integer"
+require path + "list"
+require path + "dictionary"
+require path + "parser"
+require path + "io"
 
 module BEncodr
   class BEncodeError < StandardError; end
