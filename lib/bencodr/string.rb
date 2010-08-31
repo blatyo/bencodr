@@ -4,55 +4,26 @@ require 'uri'
 
 module BEncodr
   module String
-    module Generic
-      module InstanceMethods
-        # Encodes object into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
-        # the string.
-        #
-        #   :symbol.bencodr #=> "6:symbol"
-        #
-        # @return [::String] the bencoded string
-        def bencode
-          (respond_to?(:to_s) ? to_s : to_str).bencode
-        end
-      end
+    def bencode
+      String.bencode(self)
     end
-
-    # Registers a class as an object that can be converted into a bencoded string. Class must have instance method to_s
-    # or to_str.
-    #
-    #   class MyClass
-    #     def to_s
-    #       "string"
-    #     end
-    #   end
-    #
-    #   BEncode::String.register MyClass
-    #   my_class = MyClass.new
-    #   my_class.bencodr  #=> "6:string"
-    #
-    # @param [Class#to_s, Class#to_str] type the class to add the bencodr instance method to
-    def self.register(type)
-      type.send :include, Generic::InstanceMethods
+    
+    def self.bencode(stringable)
+      string = coerce(stringable)
+      
+      [string.length, ':', string].join
     end
-
-    register Symbol
-    register URI::Generic
-
-    module String
-      module InstanceMethods
-        # Encodes a string into a bencoded string. BEncoded strings are length-prefixed base ten followed by a colon and
-        # the string.
-        #
-        #   "string".bencodr #=> "6:string"
-        #
-        # @return [::String] the bencoded string
-        def bencode
-          [length, ':', self].join
-        end
+    
+    private
+    
+    def self.coerce(stringable)
+      if stringable.respond_to?(:to_s)
+        stringable.to_s
+      elsif stringable.respond_to?(:to_str)
+        stringable.to_str
+      else
+        raise BEncodeError, "BEncodr::String.bencode can only be called on an object that provides a to_s or to_str method."
       end
-
-      ::String.send :include, InstanceMethods
     end
   end
 end

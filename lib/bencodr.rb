@@ -13,12 +13,6 @@ module BEncodr
   class BEncodeError < StandardError; end
 
   class << self
-    # This method decodes a bencoded string.
-    #
-    #   BEncode.decode("6:string") #=> "string"
-    #
-    # @param [::String] string the bencoded string to decode
-    # @return [::String, ::Integer, ::Hash, ::Array] the decoded object
     def decode(string)
       string.bdecode
     end
@@ -33,14 +27,17 @@ module BEncodr
       File.bdecode name
     end
 
-    # This method encodes a bencoded object.
-    #
-    #   BEncode.encode("string") #=> "6:string"
-    #
-    # @param [#bencodr] object the object to encode
-    # @return [::String] the bencoded object
     def encode(object)
-      object.bencode
+      object.bencode if object.respond_to?(bencode)
+      
+      [String, Integer, List, Dictionary].each do |type|
+        begin
+          return type.bencode(object)
+        rescue
+        end
+      end
+      
+      raise BEncodeError, "BEncodr.encode was unable to infer the type for the object passed in."
     end
 
     # This method encodes a bencoded object.

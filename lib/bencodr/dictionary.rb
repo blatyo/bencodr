@@ -2,56 +2,28 @@
 
 module BEncodr
   module Dictionary
-    module Generic
-      module InstanceMethods
-        # Encodes an array into a bencoded dictionary. Bencoded dictionaries are encoded as a 'd' followed by a list of
-        # alternating keys and their corresponding values followed by an 'e'. Keys appear in sorted order (sorted as raw
-        # strings, not alphanumerics).
-        #
-        #   {:cow => "moo", :seven => 7}.bencodr #=> "d3:cow3:moo5:seveni7ee"
-        #
-        # @return [::String] the bencoded dictionary
-        def bencode
-          (respond_to?(:to_h) ? to_h : to_hash).bencode
-        end
-      end
+    def bencode
+      Dictionary.bencode(self)
     end
-
-    # Registers a class as an object that can be converted into a bencoded dictionary. Class must have instance method
-    # to_h or to_hash.
-    #
-    #   class MyClass
-    #     def to_h
-    #       {:a => :a, :b => 1}
-    #     end
-    #   end
-    #
-    #   BEncodr::String.register MyClass
-    #   my_class = MyClass.new
-    #   my_class.bencodr  #=> "d1:a1:a1:bi1ee"
-    #
-    # @param [Class#to_h, Class#to_hash] type the class to add the bencodr instance method to
-    def self.register(type)
-      type.send :include, Generic::InstanceMethods
+    
+    def self.bencode(hashable)
+      hash = coerce(hashable)
+      
+      hash.keys.sort{|a, b| a.to_s <=> b.to_s}.collect do |key|
+        key.to_s.bencode + hash[key].bencode
+      end.unshift(:d).push(:e).join
     end
-
-    module Hash
-      module InstanceMethods
-        # Encodes an array into a bencoded dictionary. Bencoded dictionaries are encoded as a 'd' followed by a list of
-        # alternating keys and their corresponding values followed by an 'e'. Keys appear in sorted order (sorted as raw
-        # strings, not alphanumerics).
-        #
-        #   {:cow => "moo", :seven => 7}.bencodr #=> "d3:cow3:moo5:seveni7ee"
-        #
-        # @return [::String] the bencoded dictionary 
-        def bencode
-          keys.sort{|a, b| a.to_s <=> b.to_s}.collect do |key|
-            key.to_s.bencode + self[key].bencode
-          end.unshift(:d).push(:e).join
-        end
+    
+    private
+    
+    def self.coerce(hashable)
+      if hashable.respond_to?(:to_h)
+        hashable.to_h
+      elsif hashable.respond_to?(:to_hash)
+        hashable.to_hash
+      else
+        raise BEncodeError, "BEncodr::Dictionary.bencode can only be called on an object that provides a to_h or to_hash method."
       end
-
-      ::Hash.send :include, InstanceMethods
     end
   end
 end
