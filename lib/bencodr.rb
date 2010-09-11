@@ -28,5 +28,9 @@ module BEncodr
     def encode_file(name, object)
       ::IO.open(name, "wb") {|file| file.write(encode(object))}
     end
+    
+    def include!
+      Ext.include!
+    end
   end
 end

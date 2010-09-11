@@ -1,0 +1,15 @@
+PATH
+  remote: .
+  specs:
+    bencodr (1.2.0)
+
+GEM
+  specs:
+    rspec (1.3.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bencodr!
+  rspec (~> 1.3.0)
