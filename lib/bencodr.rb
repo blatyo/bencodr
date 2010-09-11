@@ -13,41 +13,20 @@ module BEncodr
   class BEncodeError < StandardError; end
 
   class << self
-    def decode(string)
-      string.bdecode
+    def decode(object)
+      BEncodr::Object.bdecode(object)
     end
 
-    # This method decodes a bencoded file.
-    #
-    #   BEncode.decode_file("simple.torrent") #=> "d8:announce32:http://www..."
-    #
-    # @param [::String] file the file to decode
-    # @return [::String, ::Integer, ::Hash, ::Array] the decoded object
     def decode_file(name)
-      File.bdecode name
+      ::IO.open(name, "rb") {|file| decode(file.read)}
     end
 
     def encode(object)
-      object.bencode if object.respond_to?(bencode)
-      
-      [String, Integer, List, Dictionary].each do |type|
-        begin
-          return type.bencode(object)
-        rescue
-        end
-      end
-      
-      raise BEncodeError, "BEncodr.encode was unable to infer the type for the object passed in."
+      BEncodr::Object.bencode(object)
     end
 
-    # This method encodes a bencoded object.
-    #
-    #   BEncode.encode("string") #=> "6:string"
-    #
-    # @param [::String] file the file to write the bencoded object to
-    # @param [#bencodr] object the object to encode
     def encode_file(name, object)
-      File.bencode name, object
+      ::IO.open(name, "wb") {|file| file.write(encode(object))}
     end
   end
 end
