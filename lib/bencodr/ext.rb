@@ -5,6 +5,7 @@ module BEncodr
       include_integer!
       include_list!
       include_dictionary!
+      include_io!
     end
     
     private
@@ -27,6 +28,10 @@ module BEncodr
     
     def self.include_dictionary!
       Hash.send :include, Dictionary
+    end
+    
+    def self.include_io!
+      ::IO.send :include, IO
     end
   end
 end

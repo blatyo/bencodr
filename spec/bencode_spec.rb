@@ -5,7 +5,6 @@ require "spec_helper"
 
 describe BEncodr do
   describe "#decode" do
-    # Most of this is covered in other tests. Only difference is this accepts string instead of scanner.
     it "should parse a bencoded string" do
       BEncodr.decode("6:string").should == "string"
     end
@@ -80,7 +79,7 @@ describe BEncodr do
   context "when parsing and then encoding" do
     it "should be equal to the pre-parsed and encoded bencoded string" do
       file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
-      BEncodr.decode_file(file).bencode.should == File.open(file, "rb") {|f| f.read}
+      BEncodr.encode(BEncodr.decode_file(file)).should == File.open(file, "rb") {|f| f.read}
     end
   end
 end

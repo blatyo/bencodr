@@ -6,8 +6,10 @@ require path + "string"
 require path + "integer"
 require path + "list"
 require path + "dictionary"
+require path + "object"
 require path + "parser"
 require path + "io"
+require path + "ext"
 
 module BEncodr
   class BEncodeError < StandardError; end
@@ -18,7 +20,7 @@ module BEncodr
     end
 
     def decode_file(name)
-      ::IO.open(name, "rb") {|file| decode(file.read)}
+      ::File.open(name, "rb") {|file| decode(file.read)}
     end
 
     def encode(object)
@@ -26,7 +28,7 @@ module BEncodr
     end
 
     def encode_file(name, object)
-      ::IO.open(name, "wb") {|file| file.write(encode(object))}
+      ::File.open(name, "wb") {|file| file.write(encode(object))}
     end
     
     def include!

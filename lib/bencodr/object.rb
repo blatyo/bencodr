@@ -1,20 +1,32 @@
 module BEncodr
   module Object
     def self.bencode(object)
-      return object.bencode if object.respond_to?(bencode)
+      return object.bencode if object.respond_to?(:bencode)
       
-      [String, Integer, List, Dictionary].each do |type|
-        begin
-          return type.bencode(object)
-        rescue
+      case object
+      when ::String, Symbol, URI::Generic
+        return String.bencode(object)
+      when Numeric
+        return Integer.bencode(object)
+      when Array
+        return List.bencode(object)
+      when Hash
+        return Dictionary.bencode(object)
+      else
+        [String, Integer, List, Dictionary].each do |type|
+          begin
+            return type.bencode(object)
+          rescue
+          end
         end
       end
       
-      raise BEncodeError, "BEncodr.encode was unable to infer the type for the object passed in."
+      raise BEncodeError, "BEncodr::Object.bencode was unable to infer the type of the object passed in."
     end
     
-    def self.bdecode(object)
-      Parser.parse_object(StringScanner.new(string))
+    def self.bdecode(string)
+      object = Parser.parse_object(StringScanner.new(string))
+      object or raise BEncodeError, "BEncodr::Object.bdecode was unable to parse the string passed in."
     end
   end
 end

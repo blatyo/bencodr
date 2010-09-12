@@ -10,7 +10,7 @@ module BEncodr
       ary = coerce(arrayable)
       
       ary.collect do |element|
-        BEncodr.bencode(element)
+        Object.bencode(element)
       end.unshift(:l).push(:e).join
     end
     

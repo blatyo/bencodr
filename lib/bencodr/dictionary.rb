@@ -10,7 +10,7 @@ module BEncodr
       hash = coerce(hashable)
       
       hash.keys.sort{|a, b| a.to_s <=> b.to_s}.collect do |key|
-        BEncodr::String.bencode(key.to_s) + BEncodr.bencode(hash[key])
+        BEncodr::String.bencode(key.to_s) + Object.bencode(hash[key])
       end.unshift(:d).push(:e).join
     end
     

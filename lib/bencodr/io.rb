@@ -1,6 +1,6 @@
 module BEncodr
   module IO
-    class ClassMethods
+    module ClassMethods
       def bencode(fd, object)
         BEncodr.encode_file(fd, object)
       end
