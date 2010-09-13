@@ -28,5 +28,9 @@ module BEncodr
       object = Parser.parse_object(StringScanner.new(string))
       object or raise BEncodeError, "BEncodr::Object.bdecode was unable to parse the string passed in."
     end
+    
+    def bdecode
+      Object.bdecode(self)
+    end
   end
 end

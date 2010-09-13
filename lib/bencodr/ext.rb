@@ -11,6 +11,7 @@ module BEncodr
     private
     
     def self.include_string!
+      String.send :include, Object
       [::String, Symbol, URI::Generic].each do |stringable|
         stringable.send :include, String
       end
