@@ -33,7 +33,7 @@ describe BEncodr::Dictionary do
 
       it "should encode a time key as a string" do
         time = Time.utc(0)
-        BEncodr::Dictionary.bencode({time => time}).should == "d23:0000-01-01 00:00:00 UTCi-62167219200ee"
+        BEncodr::Dictionary.bencode({time => time}).should == "d23:0000-01-01 00:00:00 UTC23:0000-01-01 00:00:00 UTCe"
       end
 
       it "should encode an array key as a string" do

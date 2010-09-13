@@ -2,11 +2,11 @@ module BEncodr
   module IO
     module ClassMethods
       def bencode(fd, object)
-        BEncodr.encode_file(fd, object)
+        open(fd, "wb") {|file| file.bencode(object)}
       end
       
       def bdecode(fd)
-        BEncodr.decode_file(fd)
+        open(fd, "rb") {|file| file.bdecode}
       end
     end
     

@@ -19,16 +19,16 @@ module BEncodr
       BEncodr::Object.bdecode(object)
     end
 
-    def decode_file(name)
-      ::File.open(name, "rb") {|file| decode(file.read)}
+    def decode_file(fd)
+      ::File.open(fd, "rb") {|file| decode(file.read)}
     end
 
     def encode(object)
       BEncodr::Object.bencode(object)
     end
 
-    def encode_file(name, object)
-      ::File.open(name, "wb") {|file| file.write(encode(object))}
+    def encode_file(fd, object)
+      ::File.open(fd, "wb") {|file| file.write(encode(object))}
     end
     
     def include!
