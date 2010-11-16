@@ -6,7 +6,7 @@ module BEncodr
       case object
       when ::String, Symbol, URI::Generic
         return String.bencode(object)
-      when Numeric
+      when Numeric, Time
         return Integer.bencode(object)
       when Array
         return List.bencode(object)

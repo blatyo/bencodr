@@ -10,6 +10,7 @@ require path + "object"
 require path + "parser"
 require path + "io"
 require path + "ext"
+require path + "version"
 
 module BEncodr
   class BEncodeError < StandardError; end
