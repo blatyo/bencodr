@@ -1,4 +1,4 @@
-require "spec"
+require "spec_helper"
 
 describe File do
   before :all do

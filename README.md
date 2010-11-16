@@ -1,29 +1,56 @@
-= BEncodr
-* *Author* Allen Madsen (blatyo)
-* *My* *Site* http://www.allenmadsen.com
-* *Gem* http://gemcutter.org/gems/bencodr
-* *Source* http://github.com/blatyo/bencodr
-* *Documentation* http://blatyo.github.com/bencodr
-* *Issue* *Tracker* http://github.com/blatyo/bencodr/issues 
+# BEncodr
+* **Author** Allen Madsen (blatyo)
+* **My Site** http://www.allenmadsen.com
+* **Gem** http://gemcutter.org/gems/bencodr
+* **Source** http://github.com/blatyo/bencodr
+* **Issue Tracker** http://github.com/blatyo/bencodr/issues 
 
-== Synopsis
+## Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
 
-== Installation
+## Installation
 
     # install the gem
-    > [sudo] gem install bencodr
-    Successfully installed bencodr
-    1 gem installed
-    Installing ri documentation for bencodr...
-    Building YARD (yri) index for bencodr...
-    Installing RDoc documentation for bencodr
+    > gem install bencodr
 
-    # somefile.rb
     require 'bencodr'
 
-== Examples
-=== String
+## Usage
+### BEncodr
+Most of the functionality of this library can be accessed directly on the BEncodr class.
+
+    # encoding is just like calling bencode on the object
+    BEncodr.encode("string")    #=> "6:string"
+
+    # decoding is just like calling bdecode on a bencoding
+    BEncodr.decode("6:string")  #=> "string"
+
+    # you can work directly with files too
+    BEncodr.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
+    BEncodr.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
+    
+### Monkey Patching
+In order to get this functionality on the objects described below, you can call:
+
+    BEncodr.include!
+
+This will extend:
+
+* BEncodr::String
+** String
+** Symbol
+** URI::Generic
+* BEncodr::Integer
+** Numeric
+** Time
+* BEncodr::List
+** Array
+* BEncodr::Dictionary
+** Hash
+* BEncodr::IO
+** IO
+
+### String
 BEncoded strings are length-prefixed base ten followed by a colon and the string.
 
     # strings
@@ -37,7 +64,7 @@ BEncoded strings are length-prefixed base ten followed by a colon and the string
     uri = URI.parse("http://github.com/blatyo/bencode")
     uri.bencode             #=> "32:http://github.com/blatyo/bencode"
 
-=== Integer
+### Integer
 Bencoded integers are represented by an 'i' followed by the number in base 10 followed by an 'e'.
 
     # integers
@@ -52,14 +79,14 @@ Bencoded integers are represented by an 'i' followed by the number in base 10 fo
     # times
     Time.at(4).bencode      #=> "i4e"
 
-=== List
+### List
 Bencoded lists are encoded as an 'l' followed by their elements (also bencoded) followed by an 'e'.
 
     # arrays
     [].bencode                        #=> "le"
     [:e, "a", 1, Time.at(11)].bencode #=> "l1:e1:ai1ei11ee"
 
-=== Dictionary
+### Dictionary
 Bencoded dictionaries are encoded as a 'd' followed by a list of alternating keys and their corresponding values
 followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alphanumerics) and are always strings.
 
@@ -80,7 +107,7 @@ followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alph
     # Note: keys are sorted as raw strings.
     {:a => 1, "A" => 1, 1=> 1}.bencode  #=> "d1:1i1e1:Ai1e1:ai1ee"
 
-=== Decoding
+### Decoding
 You can decode a bencoding by calling bdecode on the string.
 
     "6:string".bdecode  #=> "string"
@@ -88,7 +115,7 @@ You can decode a bencoding by calling bdecode on the string.
     "le".bdecode        #=> []
     "de".bdecode        #=> {}
 
-=== IO and Files
+### IO and Files
 You can also write and read bencodings.
 
     # write to standard out
@@ -111,57 +138,40 @@ You can also write and read bencodings.
     file = File.open("a.bencode", "wb")
     file.bdecode                        #=> "string"
 
-=== BEncodr
-Most of the functionality of this library can also be accessed directly on the BEncodr class.
-
-    # encoding is just like calling bencode on the object
-    BEncodr.encode("string")    #=> "6:string"
-
-    # decoding is just like calling bdecode on a bencoding
-    BEncodr.decode("6:string")  #=> "string"
-
-    # you can work directly with files too
-    BEncodr.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
-    BEncodr.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
-
-=== Registering Types
-When using bencodings it may be useful to translate your own objects into bencoded strings. You can do that with the
-register methods on each BEncode type. All register does is define a bencode instance method for the class that
-internally uses type conversion. That means if you want to specify a String type then your class must have a to_s or
-to_str instance method. The same goes for all the other types.
-
-Keep in mind when registering that if you register a class for two separate types it will only retain the bencode method
-of the last type registered for.
+### Make Your Own Objects Compatible
+When using bencodings it may be useful to translate your own objects into bencoded strings.
 
     # register string type
-    BEncodr::String.register Range
+    Range.send :include, BEncodr::String
     (1..2).bencode      #=> "4:1..2"
 
     # register integer type
-    BEncodr::Integer.register NilClass
+    NilClass.send :include, BEncodr::Integer
     nil.bencode         #=> "i0e"
 
     # register list type
-    BEncodr::List.register Range
+    Range.send :include, BEncodr::List
     (1..2).bencode      #=> "li1ei2ee"
 
     #register dictionary type
     MyClass = Class.new do
+      include BEncodr::Dictionary
+      
       def to_h
         {:a => "a", :b => "b"}
       end
     end
-    BEncodr::Dictionary.register MyClass
+
     MyClass.new.bencode #=> "d1:a1:a1:b1:be"
 
-== Note on Reporting Issues
+## Note on Reporting Issues
 
 * Try to make a failing test case
 * Tell me which version of ruby you're using
 * Tell me which OS you are using
 * Provide me with any extra files if necessary
 
-== Note on Patches/Pull Requests
+## Note on Patches/Pull Requests
 
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -171,6 +181,6 @@ of the last type registered for.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+## Copyright
 
 Copyright (c) 2010 Allen Madsen. See LICENSE for details.

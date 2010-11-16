@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-require "spec"
+require "spec_helper"
 
 describe BEncodr::Parser do
   describe "#parse_object" do

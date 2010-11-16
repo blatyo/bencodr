@@ -1,11 +1,8 @@
-# encoding: UTF-8
+require File.join(File.dirname(__FILE__), '..', 'lib', 'bencodr')
+require 'rspec'
+require 'fuubar'
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'bencodr'
-require 'spec'
-require 'spec/autorun'
-
-Spec::Runner.configure do |config|
-  
+Rspec.configure do |c|
+  c.formatter = Fuubar
+  c.color_enabled = true
 end
