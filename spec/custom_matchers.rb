@@ -71,3 +71,17 @@ RSpec::Matchers.define :bdecode_to do |expected|
     "expected that #{actual} would bdecode to #{expected}"
   end
 end
+
+RSpec::Matchers.define :bdecode do |actual|
+  chain :to do |_expected|
+    @_expected = _expected
+  end
+  
+  match do |klass|
+    klass.bdecode(actual).should == @_expected
+  end
+  
+  failure_message_for_should do |actual|
+    "expected that #{klass.name} would bdecode #{actual} to #{expected}"
+  end
+end

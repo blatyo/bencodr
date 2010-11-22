@@ -1,13 +1,6 @@
 # encoding: UTF-8
 require "spec_helper"
 
-shared_examples_for "a BEncodr extension" do |obj, klass|
-  subject{ obj }
-  
-  it{ should respond_to(:bencode) }
-  it{ should be_a(klass) }
-end
-
 describe BEncodr::Ext do
   describe "#include!" do
     before :all do

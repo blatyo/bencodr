@@ -14,17 +14,14 @@ describe File do
   end
   
   describe "#bencode" do
-    context "when an object gets bencoded and written to a file" do
-      it "should actually write a file" do
-        File.exists?(@file).should be_true
-      end
-
-      describe "#bdecode" do
-        it "should properly encode the file" do
-          File.bdecode(@file).should == @object
-        end
-      end
-    end
+    subject{ File }
+    
+    it{ File.should exist(@file) }
+  end
+  
+  describe "#bdecode" do
+    subject{ File }
+    it{ should bdecode(@file).to(@object) }
   end
   
   after :each do
