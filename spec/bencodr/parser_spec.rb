@@ -11,7 +11,7 @@ describe BEncodr::Parser do
     it{ should parse("freak out!").as(:object).to(nil) }
   end
 
-  describe "#parse_stirng" do
+  describe "#parse_string" do
     it{ should parse("6:string").as(:string).to("string") }
     it{ should parse("0:").as(:string).to("") }
     it{ should generate_parse_error(BEncodr::BEncodeError).for(:string).with("fail:") }
