@@ -70,6 +70,19 @@ shared_examples_for "BEncodr::Dictionary" do |obj|
   end
 end
 
+shared_examples_for "BEncode decoder" do |klass|
+  subject{ klass }
+  
+  it{ should bdecode("6:string").to("string") }
+  it{ should bdecode("0:").to("") }
+  it{ should bdecode("6:symbol").to("symbol") }
+  it{ should bdecode("32:http://github.com/blatyo/bencodr").to("http://github.com/blatyo/bencodr") }
+  it{ should bdecode("33:https://github.com/blatyo/bencodr").to("https://github.com/blatyo/bencodr") }
+  it{ should bdecode("31:ftp://github.com/blatyo/bencodr").to("ftp://github.com/blatyo/bencodr") }
+  it{ should bdecode("32:ldap://github.com/blatyo/bencodr").to("ldap://github.com/blatyo/bencodr") }
+  it{ should bdecode("22:mailto:sudo@sudoers.su").to("mailto:sudo@sudoers.su") }
+end
+
 shared_examples_for "a BEncodr extension" do |obj, klass|
   subject{ obj }
   

@@ -31,12 +31,10 @@ describe BEncodr do
     end
   end
 
-  describe "#encode" do
-    # Covered in other tests so only simple stuff here. 
-    it "should bencodr an object" do
-      BEncodr.encode("string").should == "6:string"
-    end
-  end
+  it_behaves_like "BEncodr::String", BEncodr
+  it_behaves_like "BEncodr::Integer", BEncodr
+  it_behaves_like "BEncodr::List", BEncodr
+  it_behaves_like "BEncodr::Dictionary", BEncodr
 
   describe "#encode_file" do
     context "when an object gets bencoded and written to a file" do
