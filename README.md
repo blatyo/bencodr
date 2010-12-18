@@ -37,18 +37,18 @@ In order to get this functionality on the objects described below, you can call:
 This will extend:
 
 * BEncodr::String
-** String
-** Symbol
-** URI::Generic
+    * String
+    * Symbol
+    * URI::Generic
 * BEncodr::Integer
-** Numeric
-** Time
+    * Numeric
+    * Time
 * BEncodr::List
-** Array
+    * Array
 * BEncodr::Dictionary
-** Hash
+    * Hash
 * BEncodr::IO
-** IO
+    * IO
 
 ### String
 BEncoded strings are length-prefixed base ten followed by a colon and the string.
