@@ -20,14 +20,14 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
 Most of the functionality of this library can be accessed directly on the BEncodr class.
 
     # encoding is just like calling bencode on the object
-    BEncodr.encode("string")    #=> "6:string"
+    BEncodr.bencode("string")    #=> "6:string"
 
     # decoding is just like calling bdecode on a bencoding
-    BEncodr.decode("6:string")  #=> "string"
+    BEncodr.bdecode("6:string")  #=> "string"
 
     # you can work directly with files too
-    BEncodr.encode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
-    BEncodr.decode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
+    BEncodr.bencode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
+    BEncodr.bdecode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
     
 ### Monkey Patching
 In order to get this functionality on the objects described below, you can call:
