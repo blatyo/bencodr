@@ -10,8 +10,13 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
 
 ## Installation
 
-    # install the gem
-    > gem install bencodr
+Install the gem:
+
+``` bash
+    gem install bencodr
+```
+
+Require it in your ruby files:
 
 ``` ruby
     require 'bencodr'
