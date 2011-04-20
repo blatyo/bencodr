@@ -13,12 +13,15 @@ This gem provides a way to encode and parse bencodings used by the Bit Torrent p
     # install the gem
     > gem install bencodr
 
+``` ruby
     require 'bencodr'
+```
 
 ## Usage
 ### BEncodr
 Most of the functionality of this library can be accessed directly on the BEncodr class.
 
+``` ruby
     # encoding is just like calling bencode on the object
     BEncodr.bencode("string")    #=> "6:string"
 
@@ -28,11 +31,14 @@ Most of the functionality of this library can be accessed directly on the BEncod
     # you can work directly with files too
     BEncodr.bencode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
     BEncodr.bdecode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
+```
     
 ### Monkey Patching
 In order to get this functionality on the objects described below, you can call:
 
+``` ruby
     BEncodr.include!
+```
 
 This will extend:
 
@@ -53,6 +59,7 @@ This will extend:
 ### String
 BEncoded strings are length-prefixed base ten followed by a colon and the string.
 
+``` ruby
     # strings
     "".bencode              #=> "0:"
     "string".bencode        #=> "6:string"
@@ -63,10 +70,12 @@ BEncoded strings are length-prefixed base ten followed by a colon and the string
     # URIs
     uri = URI.parse("http://github.com/blatyo/bencode")
     uri.bencode             #=> "32:http://github.com/blatyo/bencode"
+```
 
 ### Integer
 Bencoded integers are represented by an 'i' followed by the number in base 10 followed by an 'e'.
 
+``` ruby
     # integers
     1.bencode               #=> "i1e"
     -1.bencode              #=> "i-1e"
@@ -78,18 +87,22 @@ Bencoded integers are represented by an 'i' followed by the number in base 10 fo
 
     # times
     Time.at(4).bencode      #=> "i4e"
+```
 
 ### List
 Bencoded lists are encoded as an 'l' followed by their elements (also bencoded) followed by an 'e'.
 
+``` ruby
     # arrays
     [].bencode                        #=> "le"
     [:e, "a", 1, Time.at(11)].bencode #=> "l1:e1:ai1ei11ee"
+```
 
 ### Dictionary
 Bencoded dictionaries are encoded as a 'd' followed by a list of alternating keys and their corresponding values
 followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alphanumerics) and are always strings.
 
+``` ruby
     # hashes
     {}.bencode                          #=> "de"
     {"string" => "string"}.bencode      #=> "d6:string6:stringe"
@@ -106,18 +119,22 @@ followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alph
 
     # Note: keys are sorted as raw strings.
     {:a => 1, "A" => 1, 1=> 1}.bencode  #=> "d1:1i1e1:Ai1e1:ai1ee"
+```
 
 ### Decoding
 You can decode a bencoding by calling bdecode on the string.
 
+``` ruby
     "6:string".bdecode  #=> "string"
     "i1e".bdecode       #=> 1
     "le".bdecode        #=> []
     "de".bdecode        #=> {}
+```
 
 ### IO and Files
 You can also write and read bencodings.
 
+``` ruby
     # write to standard out
     IO.bencode(1, "string")             #=> "6:string" to stdout
     $stdout.bencode("string")           #=> "6:string" to stdout
@@ -137,10 +154,12 @@ You can also write and read bencodings.
 
     file = File.open("a.bencode", "wb")
     file.bdecode                        #=> "string"
+```
 
 ### Make Your Own Objects Compatible
 When using bencodings it may be useful to translate your own objects into bencoded strings.
 
+``` ruby
     # register string type
     Range.send :include, BEncodr::String
     (1..2).bencode      #=> "4:1..2"
@@ -163,6 +182,7 @@ When using bencodings it may be useful to translate your own objects into bencod
     end
 
     MyClass.new.bencode #=> "d1:a1:a1:b1:be"
+```
 
 ## Note on Reporting Issues
 
