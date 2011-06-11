@@ -2,32 +2,32 @@
 require "spec_helper"
 
 describe BEncodr do
-  describe "#decode" do
+  describe "#bdecode" do
     it "should parse a bencoded string" do
-      BEncodr.decode("6:string").should == "string"
+      BEncodr.bdecode("6:string").should == "string"
     end
 
     it "should parse a bencoded integer" do
-      BEncodr.decode("i4e").should == 4
+      BEncodr.bdecode("i4e").should == 4
     end
 
     it "should parse a bencoded list" do
-      BEncodr.decode("l6:stringeeeee").should == ["string"]
+      BEncodr.bdecode("l6:stringeeeee").should == ["string"]
     end
 
     it "should parse a bencoded dictionary containing a key value pair" do
-      BEncodr.decode("d6:stringi1ee").should == {"string" => 1}
+      BEncodr.bdecode("d6:stringi1ee").should == {"string" => 1}
     end
 
     it "should raise an error when the type is not recognized" do
-      lambda{BEncodr.decode("freak out!")}.should raise_error BEncodr::BEncodeError
+      lambda{BEncodr.bdecode("freak out!")}.should raise_error BEncodr::BEncodeError
     end
   end
 
-  describe "#decode_file" do
+  describe "#bdecode_file" do
     it "should parse a bencoded file" do
       dirname = File.dirname(__FILE__)
-      BEncodr.decode_file("#{dirname}/samples/mini.bencode").should == {"ba" => 3}
+      BEncodr.bdecode_file("#{dirname}/samples/mini.bencode").should == {"ba" => 3}
     end
   end
 
@@ -46,7 +46,7 @@ describe BEncodr do
       before :each do
         @file = File.join(@path, 'test.bencodr')
         @object = "string"
-        BEncodr.encode_file(@file, @object)
+        BEncodr.bencode_file(@file, @object)
       end
 
       it "should actually write a file" do
@@ -54,7 +54,7 @@ describe BEncodr do
       end
 
       it "should properly encode the file" do
-        BEncodr.decode_file(@file).should == @object
+        BEncodr.bdecode_file(@file).should == @object
       end
 
       after :each do
@@ -68,14 +68,14 @@ describe BEncodr do
 
     it "should read a torrent with newlines as part of a string without raising an error" do
       file = File.join(File.dirname(__FILE__), 'samples', 'python.torrent')
-      lambda{BEncodr.decode_file file}.should_not raise_error
+      lambda{BEncodr.bdecode_file file}.should_not raise_error
     end
   end
 
   context "when parsing and then encoding" do
     it "should be equal to the pre-parsed and encoded bencoded string" do
       file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
-      BEncodr.encode(BEncodr.decode_file(file)).should == File.open(file, "rb") {|f| f.read}
+      BEncodr.bencode(BEncodr.bdecode_file(file)).should == File.open(file, "rb") {|f| f.read}
     end
   end
 end
