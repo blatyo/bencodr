@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Allen Madsen"]
   s.email       = ["blatyo@gmail.com"]
   s.homepage    = "http://github.com/blatyo/bencodr"
-  s.summary     = "This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol."
-  s.description = "This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol. Normal ruby objects can be written out as bencode and read back in."
+  s.summary     = "This gem provides a way to encode and decode bencode used by the Bit Torrent protocol."
+  s.description = "This gem provides a way to encode and decode bencode used by the Bit Torrent protocol. Normal ruby objects can be marshalled as bencode and demarshalled back to ruby."
 
   s.required_rubygems_version = ">= 1.3.6"
   s.add_development_dependency "rspec",   "~> 2.1.0"
