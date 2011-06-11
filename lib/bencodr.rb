@@ -21,7 +21,7 @@ module BEncodr
     end
 
     def bdecode_file(fd)
-      ::File.open(fd, "rb") {|file| decode(file.read)}
+      ::File.open(fd, "rb") {|file| bdecode(file.read)}
     end
 
     def bencode(object)
@@ -29,9 +29,9 @@ module BEncodr
     end
 
     def bencode_file(fd, object)
-      ::File.open(fd, "wb") {|file| file.write(encode(object))}
+      ::File.open(fd, "wb") {|file| file.write(bencode(object))}
     end
-    
+
     def include!
       Ext.include!
     end
