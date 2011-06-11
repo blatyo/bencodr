@@ -111,17 +111,3 @@ module BEncodr
     end
   end
 end
-
-class String
-  # This method decodes a bencoded string into a ruby object.
-  #
-  #   "6:string".bdecode  #=> "string"
-  #   "i-1e".bdecode      #=> -1
-  #   "le".bdecode        #=> []
-  #   "de".bdecode        #=> {}
-  #
-  # @return [::String, ::Integer, ::Array, ::Hash] the decoded object
-  def bdecode
-    BEncodr::Parser.parse_object(StringScanner.new self) or raise BEncodr::BEncodeError, "Invalid bencoding"
-  end
-end
