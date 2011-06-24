@@ -27,7 +27,7 @@ describe BEncodr do
   describe "#bdecode_file" do
     it "should parse a bencoded file" do
       dirname = File.dirname(__FILE__)
-      BEncodr.bdecode_file("#{dirname}/samples/mini.bencode").should == {"ba" => 3}
+      BEncodr.bdecode_file("#{dirname}/samples/mini.bencode").should == {"£" => 3}
     end
   end
 
@@ -75,7 +75,7 @@ describe BEncodr do
   context "when parsing and then encoding" do
     it "should be equal to the pre-parsed and encoded bencoded string" do
       file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
-      BEncodr.bencode(BEncodr.bdecode_file(file)).should == File.open(file, "rb") {|f| f.read}
+      BEncodr.bencode(BEncodr.bdecode_file(file)).should == File.open(file, "r:UTF-8") {|f| f.read}
     end
   end
 end

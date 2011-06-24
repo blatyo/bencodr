@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module BEncodr
   module IO
     module ClassMethods
@@ -15,7 +17,7 @@ module BEncodr
     end
     
     def bdecode
-      Object.bdecode(read)
+      Object.bdecode(read.force_encoding('UTF-8'))
     end
     
     def self.included(base)

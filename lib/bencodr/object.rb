@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module BEncodr
   module Object
     def self.bencode(object)
@@ -25,7 +27,8 @@ module BEncodr
     end
     
     def self.bdecode(string)
-      object = Parser.parse_object(StringScanner.new(string))
+      scanner = StringScanner.new(string)
+      object = Parser.parse_object(scanner)
       object or raise BEncodeError, "BEncodr::Object.bdecode was unable to parse the string passed in."
     end
     

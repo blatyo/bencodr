@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module BEncodr
   module Ext
     def self.include!

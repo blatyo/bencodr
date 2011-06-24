@@ -1,8 +1,11 @@
+# encoding: UTF-8
+
 shared_examples_for "BEncodr::String" do |obj|
   subject{ obj }
   
   describe "#bencode" do
     it{ should bencode("string").to("6:string") }
+    it{ should bencode("£").to("2:£") }
     it{ should bencode("").to("0:") }
     it{ should bencode(:symbol).to("6:symbol") }
     it{ should bencode(URI.parse("http://github.com/blatyo/bencodr")).to("32:http://github.com/blatyo/bencodr") }
