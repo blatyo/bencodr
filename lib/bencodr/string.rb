@@ -11,7 +11,7 @@ module BEncodr
     def self.bencode(stringable)
       string = coerce(stringable)
       
-      [string.length, ':', string].join
+      [string.bytesize, ':', string].join
     end
     
     private
