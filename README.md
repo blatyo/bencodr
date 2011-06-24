@@ -3,10 +3,12 @@
 * **My Site** http://www.allenmadsen.com
 * **Gem** http://gemcutter.org/gems/bencodr
 * **Source** http://github.com/blatyo/bencodr
-* **Issue Tracker** http://github.com/blatyo/bencodr/issues 
+* **Issue Tracker** http://github.com/blatyo/bencodr/issues
 
 ## Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
+
+_Note: If using ruby 1.9.x, use a bencodr version >= 3.0.0 as it takes advantage of 1.9.x's encoding features._
 
 ## Installation
 
@@ -37,7 +39,7 @@ Most of the functionality of this library can be accessed directly on the BEncod
     BEncodr.bencode_file("my_awesome.torrent", {:announce => "http://www.sometracker.com/announce:80"})
     BEncodr.bdecode_file("my_awesome.torrent") #=> {:announce => "http://www.sometracker.com/announce:80"}
 ```
-    
+
 ### Monkey Patching
 In order to get this functionality on the objects described below, you can call:
 
@@ -51,6 +53,11 @@ This will extend:
     * String
     * Symbol
     * URI::Generic
+    * URI::FTP
+    * URI::HTTP
+    * URI::HTTPS
+    * URI::LDAP
+    * URI::LDAPS
 * BEncodr::Integer
     * Numeric
     * Time
@@ -146,7 +153,7 @@ You can also write and read bencodings.
 
     # write to file
     File.bencode("a.bencode", "string") #=> "6:string" to a.bencode
-    
+
     file = File.open("a.bencode", "wb")
     file.bencode("string")              #=> "6:string" to a.bencode
 
@@ -180,7 +187,7 @@ When using bencodings it may be useful to translate your own objects into bencod
     #register dictionary type
     MyClass = Class.new do
       include BEncodr::Dictionary
-      
+
       def to_h
         {:a => "a", :b => "b"}
       end
