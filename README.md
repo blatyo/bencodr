@@ -61,8 +61,6 @@ This will extend:
 * BEncodr::Integer
     * Numeric
     * Time
-    * Date
-    * DateTime
 * BEncodr::List
     * Array
 * BEncodr::Dictionary

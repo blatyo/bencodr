@@ -20,7 +20,7 @@ module BEncodr
     end
     
     def self.include_integer!
-      [Numeric, Time, Date].each do |intable|
+      [Numeric, Time].each do |intable|
         intable.send :include, Integer
       end
     end
