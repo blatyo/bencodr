@@ -8,7 +8,7 @@
 ## Synopsis
 This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.
 
-_Note: If using ruby 1.8.x, use bencodr version 2.1.0. 3.0.0 is 1.9.x only, because it uses the 1.9.x encoding features._
+_Note: If using ruby 1.8.x, use bencodr version 2.0.1. 3.0.0 is 1.9.x only, because it uses the 1.9.x encoding features._
 
 ## Installation
 
