@@ -165,7 +165,7 @@ You can also write and read bencodings.
     # read from file
     File.bdecode("a.bencode")           #=> "string"
 
-    file = File.open("a.bencode", "wb")
+    file = File.open("a.bencode", "rb")
     file.bdecode                        #=> "string"
 ```
 
