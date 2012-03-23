@@ -1,35 +1,62 @@
 # encoding: UTF-8
 require "spec_helper"
+require 'tempfile'
 
 describe File do
   before :all do
-    @path = "tmp"
-    Dir.mkdir(@path) unless File.exists? @path
     BEncodr.include!
   end
 
-  before :each do
-    @file = File.join(@path, 'test.bencodr')
-    @object = "string"
-    File.bencode(@file, @object)
-  end
-  
-  describe "#bencode" do
-    subject{ File }
-    
-    it{ File.should exist(@file) }
-  end
-  
-  describe "#bdecode" do
-    subject{ File }
-    it{ should bdecode(@file).to(@object) }
-  end
-  
-  after :each do
-    File.delete(@file)
+  let(:file)   { Tempfile.new('test.bencodr') }
+  let(:object) { "string" }
+
+  describe ".bencode" do
+    it "should encode object to file" do
+      File.bencode(file, object)
+      file.rewind
+      file.read.should == "6:string"
+    end
   end
 
-  after :all do
-    Dir.delete(@path) if File.exists? @path
+  describe "#bencode" do
+    it "should encode object to file" do
+      file.bencode(object)
+      file.rewind
+      file.read.should == "6:string"
+    end
+  end
+
+  context "decode" do
+    let(:sample_path) { 'spec/samples/bencodr.torrent' }
+
+    before do
+      file.bencode(object)
+      file.rewind
+    end
+
+    describe ".bdecode" do
+      subject{ File }
+
+      it "should decode object from file" do
+        should bdecode(file).to(object)
+      end
+
+      it "should decode sample file without error" do
+        expect{ File.bdecode(sample_path) }.to_not raise_error
+      end
+    end
+
+    describe "#bdecode" do
+      subject{ file }
+
+      it "should decode object from file" do
+        should bdecode_to(object)
+      end
+
+      it "should decode sample file without error" do
+        f = File.open(sample_path, 'rb')
+        expect{ f.bdecode }.to_not raise_error
+      end
+    end
   end
 end
