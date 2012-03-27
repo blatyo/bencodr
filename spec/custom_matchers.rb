@@ -1,10 +1,11 @@
 RSpec::Matchers.define :bencode_to do |expected|
   match do |actual|
-    actual.bencode.should equal(expected)
+    @got = actual.bencode
+    @got.should equal(expected)
   end
   
   failure_message_for_should do |actual|
-    "expected that #{actual} would bencode to #{expected}"
+    "expected that #{actual.inspect} would bencode to #{expected.inspect}, but got #{@got.inspect}}"
   end
 end
 
@@ -14,11 +15,12 @@ RSpec::Matchers.define :bencode do |actual|
   end
   
   match do |klass|
-    klass.bencode(actual).should == @_expected
+    @got = klass.bencode(actual)
+    @got.should == @_expected
   end
   
   failure_message_for_should do |klass|
-    "expected #{klass.name} to bencode #{actual} to #{@_expected}"
+    "expected #{klass.name} to bencode #{actual.inspect} to #{@_expected.inspect}, but got #{@got.inspect}"
   end
 end
 
@@ -33,11 +35,12 @@ RSpec::Matchers.define :parse do |actual|
   
   match do |klass|
     scanner = StringScanner.new(actual)
-    klass.send(:"parse_#{@type}", scanner).should == @_expected
+    @got = klass.send(:"parse_#{@type}", scanner)
+    @got.should == @_expected
   end
   
   failure_message_for_should do |klass|
-    "expected #{klass.name} to bdencode #{actual} as #{@type} to #{@_expected}"
+    "expected #{klass.name} to bdencode #{actual.inspect} as #{@type} to #{@_expected.inspect}, but got #{@got.inspect}"
   end
 end
 
