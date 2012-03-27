@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = "This gem provides a way to encode and decode bencode used by the Bit Torrent protocol. Normal ruby objects can be marshalled as bencode and demarshalled back to ruby."
 
   s.required_rubygems_version = ">= 1.3.6"
+  s.add_development_dependency "rake"
   s.add_development_dependency "rspec",   "~> 2.8.0"
   s.add_development_dependency "bundler", ">= 1.0.0"
   s.add_development_dependency "fuubar",  ">= 1.0.0"
