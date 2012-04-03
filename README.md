@@ -196,6 +196,9 @@ When using bencodings it may be useful to translate your own objects into bencod
     MyClass.new.bencode #=> "d1:a1:a1:b1:be"
 ```
 
+## Contributors
+* [Andrew Nikolaev](https://github.com/quaternion) - Fixed encoding issue
+
 ## Note on Reporting Issues
 
 * Try to make a failing test case
