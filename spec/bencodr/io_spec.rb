@@ -12,7 +12,7 @@ describe File do
 
   describe ".bencode" do
     it "should encode object to file" do
-      File.bencode(file, object)
+      File.bencode(file.path, object)
       file.rewind
       file.read.should == "6:string"
     end
@@ -35,10 +35,8 @@ describe File do
     end
 
     describe ".bdecode" do
-      subject{ File }
-
       it "should decode object from file" do
-        should bdecode(file).to(object)
+        File.bdecode(file.path).should == object
       end
 
       it "should decode sample file without error" do
@@ -47,10 +45,8 @@ describe File do
     end
 
     describe "#bdecode" do
-      subject{ file }
-
       it "should decode object from file" do
-        should bdecode_to(object)
+        file.bdecode.should == object
       end
 
       it "should decode sample file without error" do
