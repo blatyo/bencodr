@@ -53,21 +53,38 @@ shared_examples_for "BEncodr::Dictionary" do |obj|
       it{ should bencode({:symbol => :symbol}).to("d6:symbol6:symbole") }
       it{ should bencode({1 => 1}).to("d1:1i1ee")}
       it{ should bencode({1.1 => 1.1}).to("d3:1.1i1ee") }
-      it{ should bencode({{} => {}}).to("d2:{}dee") }
       
+      describe "ruby 1.9.x", :if => $ruby19 do
+        it{ should bencode({{} => {}}).to("d2:{}dee") }
+
+        it{
+          time = Time.utc(0)
+          should bencode({time => time}).to("d23:0000-01-01 00:00:00 UTCi-62167219200ee")
+        }
+
+        it{
+          array = (1..4).to_a
+          should bencode({array => array}).to("d12:[1, 2, 3, 4]li1ei2ei3ei4eee")
+        }
+      end
+
+      describe "ruby 1.8.x", :unless => $ruby19 do
+        it{ should bencode({{} => {}}).to("d0:dee") }
+
+        it{
+          time = Time.utc(0)
+          should bencode({time => time}).to("d28:Sat Jan 01 00:00:00 UTC 2000i946684800ee")
+        }
+
+        it{
+          array = (1..4).to_a
+          should bencode({array => array}).to("d4:1234li1ei2ei3ei4eee")
+        }
+      end
+
       it{
         uri = URI.parse("http://github.com/blatyo/bencode")
         should bencode({uri => uri}).to("d32:http://github.com/blatyo/bencode32:http://github.com/blatyo/bencodee")
-      }
-
-      it{
-        time = Time.utc(0)
-        should bencode({time => time}).to("d23:0000-01-01 00:00:00 UTCi-62167219200ee")
-      }
-
-      it{
-        array = (1..4).to_a
-        should bencode({array => array}).to("d12:[1, 2, 3, 4]li1ei2ei3ei4eee")
       }
     end
   end
