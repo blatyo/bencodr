@@ -37,7 +37,8 @@ module BEncodr
       def parse_string(scanner)
         length = scanner.scan(/[1-9][0-9]*|0/)        or raise BEncodeError, "Invalid string: length invalid. #{scanner.pos}"
         scanner.scan(/:/)                             or raise BEncodeError, "Invalid string: missing colon(:). #{scanner.pos}"
-        byte_string = scanner.scan(/.{#{length}}/m)   or raise BEncodeError, "Invalid string: length too long(#{length}) #{scanner.pos}."
+        byte_string= scanner.peek(length.to_i)   or raise BEncodeError, "Invalid string: length too long(#{length}) #{scanner.pos}."
+        scanner.pos = scanner.pos + length.to_i or raise BEncodeError, "Invalid string: length too long(#{length}) #{scanner.pos}."
         if RUBY_VERSION =~ /1\.9/
           byte_string.encode('UTF-8') rescue byte_string.force_encoding('UTF-8')
         else
