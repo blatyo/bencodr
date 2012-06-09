@@ -198,6 +198,7 @@ When using bencodings it may be useful to translate your own objects into bencod
 
 ## Contributors
 * [Andrew Nikolaev](https://github.com/quaternion) - Fixed encoding issue
+* [Tarangp](https://github.com/Tarangp) - Fixed parsing of long bencoded strings
 
 ## Note on Reporting Issues
 
