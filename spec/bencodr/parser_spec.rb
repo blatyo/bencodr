@@ -52,6 +52,10 @@ describe BEncodr::Parser do
 end
 
 describe String do
+  before :all do
+    BEncodr::Ext.include!
+  end
+
   describe "#bdecode" do
     it{ "6:string".should bdecode_to("string") }
     it{ "i-1e".should bdecode_to(-1) }

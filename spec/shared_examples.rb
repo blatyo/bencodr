@@ -19,7 +19,7 @@ end
 shared_examples_for "BEncodr::Integer" do |obj|
   subject{ obj }
   
-  describe "#bencodr" do
+  describe "#bencode" do
     it{ should bencode(1).to("i1e") }
     it{ should bencode(-1).to("i-1e") }
     it{ should bencode(10_000_000_000).to("i10000000000e") }
