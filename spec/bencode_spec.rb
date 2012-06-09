@@ -70,12 +70,18 @@ describe BEncodr do
       file = File.join(File.dirname(__FILE__), 'samples', 'python.torrent')
       lambda{BEncodr.bdecode_file file}.should_not raise_error
     end
+
+    it "should read a torrent with long strings without raising an exception" do
+      file = File.join(File.dirname(__FILE__), 'samples', 'big_torrent.torrent')
+      lambda{BEncodr.bdecode_file file}.should_not raise_error
+    end
   end
 
   context "when parsing and then encoding" do
-    it "should be equal to the pre-parsed and encoded bencoded string" do
-      file = File.dirname(__FILE__) + "/samples/bencode.rb.torrent"
-      BEncodr.bencode(BEncodr.bdecode_file(file)).should == File.open(file, "r:UTF-8") {|f| f.read}
+    Dir[File.dirname(__FILE__) + "/samples/*.torrent"].each do |file|
+      it "should be equal to the pre-parsed and encoded bencoded string for #{file}" do
+        BEncodr.bencode(BEncodr.bdecode_file(file)).should == File.open(file, "r:UTF-8") {|f| f.read}
+      end
     end
   end
 end
