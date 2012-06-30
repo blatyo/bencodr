@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Bencodr by blatyo</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Bencodr</h1>
+        <h2>This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/blatyo/bencodr/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/blatyo/bencodr/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/blatyo/bencodr" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>BEncodr</h1>
+
+<ul>
+<li>
+<strong>Author</strong> Allen Madsen (blatyo)</li>
+<li>
+<strong>My Site</strong> <a href="http://www.allenmadsen.com">http://www.allenmadsen.com</a>
+</li>
+<li>
+<strong>Gem</strong> <a href="http://gemcutter.org/gems/bencodr">http://gemcutter.org/gems/bencodr</a>
+</li>
+<li>
+<strong>Source</strong> <a href="http://github.com/blatyo/bencodr">http://github.com/blatyo/bencodr</a>
+</li>
+<li>
+<strong>Issue Tracker</strong> <a href="http://github.com/blatyo/bencodr/issues">http://github.com/blatyo/bencodr/issues</a>
+</li>
+<li>
+<strong>Build Status</strong> <a href="http://travis-ci.org/blatyo/bencodr"><img src="http://travis-ci.org/blatyo/bencodr.png" alt="Build Status"></a>
+</li>
+</ul><h2>Synopsis</h2>
+
+<p>This gem provides a way to encode and parse bencodings used by the Bit Torrent protocol.</p>
+
+<h2>Installation</h2>
+
+<p>Install the gem:</p>
+
+<div class="highlight">
+<pre>    gem install bencodr
+</pre>
+</div>
+
+
+<p>Require it in your ruby files:</p>
+
+<div class="highlight">
+<pre>    <span class="nb">require</span> <span class="s1">'bencodr'</span>
+</pre>
+</div>
+
+
+<h2>Usage</h2>
+
+<h3>BEncodr</h3>
+
+<p>Most of the functionality of this library can be accessed directly on the BEncodr class.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># encoding is just like calling bencode on the object</span>
+    <span class="no">BEncodr</span><span class="o">.</span><span class="n">bencode</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>    <span class="c1">#=&gt; "6:string"</span>
+
+    <span class="c1"># decoding is just like calling bdecode on a bencoding</span>
+    <span class="no">BEncodr</span><span class="o">.</span><span class="n">bdecode</span><span class="p">(</span><span class="s2">"6:string"</span><span class="p">)</span>  <span class="c1">#=&gt; "string"</span>
+
+    <span class="c1"># you can work directly with files too</span>
+    <span class="no">BEncodr</span><span class="o">.</span><span class="n">bencode_file</span><span class="p">(</span><span class="s2">"my_awesome.torrent"</span><span class="p">,</span> <span class="p">{</span><span class="ss">:announce</span> <span class="o">=&gt;</span> <span class="s2">"http://www.sometracker.com/announce:80"</span><span class="p">})</span>
+    <span class="no">BEncodr</span><span class="o">.</span><span class="n">bdecode_file</span><span class="p">(</span><span class="s2">"my_awesome.torrent"</span><span class="p">)</span> <span class="c1">#=&gt; {:announce =&gt; "http://www.sometracker.com/announce:80"}</span>
+</pre>
+</div>
+
+
+<h3>Monkey Patching</h3>
+
+<p>In order to get this functionality on the objects described below, you can call:</p>
+
+<div class="highlight">
+<pre>    <span class="no">BEncodr</span><span class="o">.</span><span class="n">include!</span>
+</pre>
+</div>
+
+
+<p>This will extend:</p>
+
+<ul>
+<li>BEncodr::String
+
+<ul>
+<li>String</li>
+<li>Symbol</li>
+<li>URI::Generic</li>
+<li>URI::FTP</li>
+<li>URI::HTTP</li>
+<li>URI::HTTPS</li>
+<li>URI::LDAP</li>
+<li>URI::LDAPS</li>
+</ul>
+</li>
+<li>BEncodr::Integer
+
+<ul>
+<li>Numeric</li>
+<li>Time</li>
+</ul>
+</li>
+<li>BEncodr::List
+
+<ul>
+<li>Array</li>
+</ul>
+</li>
+<li>BEncodr::Dictionary
+
+<ul>
+<li>Hash</li>
+</ul>
+</li>
+<li>BEncodr::IO
+
+<ul>
+<li>IO</li>
+<li>File</li>
+</ul>
+</li>
+</ul><h3>String</h3>
+
+<p>BEncoded strings are length-prefixed base ten followed by a colon and the string.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># strings</span>
+    <span class="s2">""</span><span class="o">.</span><span class="n">bencode</span>              <span class="c1">#=&gt; "0:"</span>
+    <span class="s2">"string"</span><span class="o">.</span><span class="n">bencode</span>        <span class="c1">#=&gt; "6:string"</span>
+
+    <span class="c1"># symbols</span>
+    <span class="ss">:symbol</span><span class="o">.</span><span class="n">bencode</span>         <span class="c1">#=&gt; "6:symbol"</span>
+
+    <span class="c1"># URIs</span>
+    <span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"http://github.com/blatyo/bencode"</span><span class="p">)</span>
+    <span class="n">uri</span><span class="o">.</span><span class="n">bencode</span>             <span class="c1">#=&gt; "32:http://github.com/blatyo/bencode"</span>
+</pre>
+</div>
+
+
+<h3>Integer</h3>
+
+<p>Bencoded integers are represented by an 'i' followed by the number in base 10 followed by an 'e'.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># integers</span>
+    <span class="mi">1</span><span class="o">.</span><span class="n">bencode</span>               <span class="c1">#=&gt; "i1e"</span>
+    <span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="n">bencode</span>              <span class="c1">#=&gt; "i-1e"</span>
+    <span class="mi">10_000_000_000</span><span class="o">.</span><span class="n">bencode</span>  <span class="c1">#=&gt; "i10000000000e"</span>
+
+    <span class="c1"># other numerics</span>
+    <span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="n">bencode</span>             <span class="c1">#=&gt; "i1e"</span>
+    <span class="o">-</span><span class="mi">1</span><span class="n">e10</span><span class="o">.</span><span class="n">bencode</span>           <span class="c1">#=&gt; "i-10000000000e"</span>
+
+    <span class="c1"># times</span>
+    <span class="no">Time</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">bencode</span>      <span class="c1">#=&gt; "i4e"</span>
+</pre>
+</div>
+
+
+<h3>List</h3>
+
+<p>Bencoded lists are encoded as an 'l' followed by their elements (also bencoded) followed by an 'e'.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># arrays</span>
+    <span class="o">[].</span><span class="n">bencode</span>                        <span class="c1">#=&gt; "le"</span>
+    <span class="o">[</span><span class="ss">:e</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Time</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="o">].</span><span class="n">bencode</span> <span class="c1">#=&gt; "l1:e1:ai1ei11ee"</span>
+</pre>
+</div>
+
+
+<h3>Dictionary</h3>
+
+<p>Bencoded dictionaries are encoded as a 'd' followed by a list of alternating keys and their corresponding values
+followed by an 'e'. Keys appear in sorted order (sorted as raw strings, not alphanumerics) and are always strings.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># hashes</span>
+    <span class="p">{}</span><span class="o">.</span><span class="n">bencode</span>                          <span class="c1">#=&gt; "de"</span>
+    <span class="p">{</span><span class="s2">"string"</span> <span class="o">=&gt;</span> <span class="s2">"string"</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>      <span class="c1">#=&gt; "d6:string6:stringe"</span>
+    <span class="p">{</span><span class="ss">:symbol</span> <span class="o">=&gt;</span> <span class="ss">:symbol</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>        <span class="c1">#=&gt; "d6:symbol6:symbole"</span>
+    <span class="p">{</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>                    <span class="c1">#=&gt; "d1:1i1ee"</span>
+    <span class="p">{</span><span class="mi">1</span><span class="o">.</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="o">.</span><span class="mi">1</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>                <span class="c1">#=&gt; "d3:1.1i1ee"</span>
+    <span class="p">{{}</span> <span class="o">=&gt;</span> <span class="p">{}}</span><span class="o">.</span><span class="n">bencode</span>                  <span class="c1">#=&gt; "d2:{}dee"</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span><span class="n">time</span> <span class="o">=&gt;</span> <span class="n">time</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>              <span class="c1">#=&gt; "d23:2000-01-01 00:00:00 UTCi946684800ee"</span>
+
+    <span class="n">array</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+    <span class="p">{</span><span class="n">array</span> <span class="o">=&gt;</span> <span class="n">array</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>            <span class="c1">#=&gt; "d12:[1, 2, 3, 4]li1ei2ei3ei4eee"</span>
+
+    <span class="c1"># Note: keys are sorted as raw strings.</span>
+    <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"A"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}</span><span class="o">.</span><span class="n">bencode</span>  <span class="c1">#=&gt; "d1:1i1e1:Ai1e1:ai1ee"</span>
+</pre>
+</div>
+
+
+<h3>Decoding</h3>
+
+<p>You can decode a bencoding by calling bdecode on the string.</p>
+
+<div class="highlight">
+<pre>    <span class="s2">"6:string"</span><span class="o">.</span><span class="n">bdecode</span>  <span class="c1">#=&gt; "string"</span>
+    <span class="s2">"i1e"</span><span class="o">.</span><span class="n">bdecode</span>       <span class="c1">#=&gt; 1</span>
+    <span class="s2">"le"</span><span class="o">.</span><span class="n">bdecode</span>        <span class="c1">#=&gt; []</span>
+    <span class="s2">"de"</span><span class="o">.</span><span class="n">bdecode</span>        <span class="c1">#=&gt; {}</span>
+</pre>
+</div>
+
+
+<h3>IO and Files</h3>
+
+<p>You can also write and read bencodings.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># write to standard out</span>
+    <span class="no">IO</span><span class="o">.</span><span class="n">bencode</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"string"</span><span class="p">)</span>             <span class="c1">#=&gt; "6:string" to stdout</span>
+    <span class="vg">$stdout</span><span class="o">.</span><span class="n">bencode</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>           <span class="c1">#=&gt; "6:string" to stdout</span>
+
+    <span class="c1"># write to file</span>
+    <span class="no">File</span><span class="o">.</span><span class="n">bencode</span><span class="p">(</span><span class="s2">"a.bencode"</span><span class="p">,</span> <span class="s2">"string"</span><span class="p">)</span> <span class="c1">#=&gt; "6:string" to a.bencode</span>
+
+    <span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"a.bencode"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">bencode</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span>              <span class="c1">#=&gt; "6:string" to a.bencode</span>
+
+    <span class="c1"># read from standard in</span>
+    <span class="no">IO</span><span class="o">.</span><span class="n">bdecode</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                       <span class="c1">#=&gt; "string"</span>
+    <span class="vg">$stdin</span><span class="o">.</span><span class="n">bdecode</span>                      <span class="c1">#=&gt; "string"</span>
+
+    <span class="c1"># read from file</span>
+    <span class="no">File</span><span class="o">.</span><span class="n">bdecode</span><span class="p">(</span><span class="s2">"a.bencode"</span><span class="p">)</span>           <span class="c1">#=&gt; "string"</span>
+
+    <span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"a.bencode"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">bdecode</span>                        <span class="c1">#=&gt; "string"</span>
+</pre>
+</div>
+
+
+<h3>Make Your Own Objects Compatible</h3>
+
+<p>When using bencodings it may be useful to translate your own objects into bencoded strings.</p>
+
+<div class="highlight">
+<pre>    <span class="c1"># register string type</span>
+    <span class="no">Range</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="no">BEncodr</span><span class="o">::</span><span class="nb">String</span>
+    <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">bencode</span>      <span class="c1">#=&gt; "4:1..2"</span>
+
+    <span class="c1"># register integer type</span>
+    <span class="no">NilClass</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="no">BEncodr</span><span class="o">::</span><span class="nb">Integer</span>
+    <span class="kp">nil</span><span class="o">.</span><span class="n">bencode</span>         <span class="c1">#=&gt; "i0e"</span>
+
+    <span class="c1"># register list type</span>
+    <span class="no">Range</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="no">BEncodr</span><span class="o">::</span><span class="no">List</span>
+    <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">bencode</span>      <span class="c1">#=&gt; "li1ei2ee"</span>
+
+    <span class="c1">#register dictionary type</span>
+    <span class="no">MyClass</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+      <span class="kp">include</span> <span class="no">BEncodr</span><span class="o">::</span><span class="no">Dictionary</span>
+
+      <span class="k">def</span> <span class="nf">to_h</span>
+        <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="s2">"a"</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="s2">"b"</span><span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">bencode</span> <span class="c1">#=&gt; "d1:a1:a1:b1:be"</span>
+</pre>
+</div>
+
+
+<h2>Contributors</h2>
+
+<ul>
+<li>
+<a href="https://github.com/quaternion">Andrew Nikolaev</a> - Fixed encoding issue</li>
+</ul><h2>Note on Reporting Issues</h2>
+
+<ul>
+<li>Try to make a failing test case</li>
+<li>Tell me which version of ruby you're using</li>
+<li>Tell me which OS you are using</li>
+<li>Provide me with any extra files if necessary</li>
+</ul><h2>Note on Patches/Pull Requests</h2>
+
+<ul>
+<li>Fork the project.</li>
+<li>Make your feature addition or bug fix.</li>
+<li>Add tests for it. This is important so I don't break it in a
+future version unintentionally.</li>
+<li>Commit, do not mess with rakefile, version, or history.
+(if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)</li>
+<li>Send me a pull request. Bonus points for topic branches.</li>
+</ul><h2>Copyright</h2>
+
+<p>Copyright (c) 2010 Allen Madsen. See LICENSE for details.</p>
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-33059328-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
